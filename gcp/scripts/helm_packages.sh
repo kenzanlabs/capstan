@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##########################
-# Kenzan LLC -> Helm packages GKE
+#  Helm packages for GKE
 ##########################
 source $PWD/env.sh
 

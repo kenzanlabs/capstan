@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 
 ##########################
-# Kenzan LLC -> Create Spinnaker
-#
-## Can your GCP Service Account do this?
-## Did you create Jenkins in GKE first?
-#
-# nparks@kenzan.com
+# Create Spinnaker
 ##########################
 ###
 source $PWD/env.sh

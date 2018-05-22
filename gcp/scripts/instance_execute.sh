@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 
 ##########################
-# Kenzan LLC Script Executed by TerraForm on GCP Instance
-#
-# Do you have a powerfull enough service account to do this stuff?
-# THis is to run from an instance in GCP
-#
-# nparks@kenzan.com
+# Set-up the GCP Instance
 ##########################
 ###
 
