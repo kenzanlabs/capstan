@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
 ##########################
-# Kenzan LLC Create GKE for SpinnakerJenkins
-#
-## Can your GCP Service Account do this?
-#
-# nparks@kenzan.com
+# Additional GKE set-up
 ##########################
-###
+
 
 PROJECT_NAME=$1
 CLUSTER_NAME=$2
@@ -33,7 +29,6 @@ kubectl create -f tiller_rbac.yml
 #give k8 a break if your cluster is small
 sleep 5
 helm init --service-account tiller --wait
-# give the cluster a break, if your K8 is small
 helm version
 
 echo "=========================================="
