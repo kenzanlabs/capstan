@@ -88,11 +88,16 @@ hal config provider kubernetes enable
 
 echo "==== -> Let's Get that Oauth and SSL stuff set-up"
 
-#hal config security authn oauth2 edit --client-id $OAUTH2_CLIENT_ID --client-secret $OAUTH2_CLIENT_SECRET --provider google  --user-info-requirements hd=kenzan.com
-
+#hal config security authn oauth2 edit --client-id $OAUTH2_CLIENT_ID --client-secret $OAUTH2_CLIENT_SECRET --provider google  --user-info-requirements hd=$GSUITE_DOMAIN
 #hal config security authn oauth2 enable
 
-##### if we are TLS terminating at load balancer
+### do we need to override base urls?
+#hal config security ui edit --override-base-url $DNSUI
+#hal config security api edit --override-base-url $DNSAPI
+
+#### Do you need local TLS set-up? do it here
+
+##### enable/enable based on TLS set-up
 #hal config security api ssl disable
 #hal config security ui ssl disable
 
