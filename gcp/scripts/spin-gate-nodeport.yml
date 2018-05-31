@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: spin
+    stack: gate
+  name: spin-gate-nodeport-service
+  namespace: spinnaker
+spec:
+  ports:
+  - name: http
+    port: 8084
+    protocol: TCP
+    targetPort: 8084
+  - name: monitoring
+    port: 8008
+    protocol: TCP
+    targetPort: 8008
+  selector:
+    load-balancer-spin-gate: "true"
+  type: NodePort
+
