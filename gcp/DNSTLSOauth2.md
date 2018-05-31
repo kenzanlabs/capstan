@@ -7,23 +7,24 @@ In this readme you will learn:
 2. How to configure TLS terminated spinnaker
 3. What DNS steps you can have automated or manually configured
 
-Why? Because we are all adults and we know that Token authentication, proper domain names, and TLS endpoints are the right things todo.
+**Why?** Because we are all adults and we know that Token authentication, proper domain names, and TLS endpoints are the right things todo.
+
 
 *These steps assume a GSUITE account and optionally (described later) Cloud DNS in the same google project*
 
 ## TL;DR
 
 
-### Let's Beging
-## DNS configuration with Google Cloud DNS
+## Let's Beging
+#### DNS configuration with Google Cloud DNS
 
 
 
-## Configuring TLS
+### Configuring TLS
 
 
 
-## Configuring OAUTH2
+### Configuring OAUTH2
 
 
 ## Activating 
