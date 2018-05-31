@@ -4,9 +4,11 @@
 # expects two files in the same folder 
 
 resource "google_compute_ssl_certificate" "genericwildcard" {
-  #this name may be burned into ingress controller for GCE
+  #this name may be burned into ingress controller yaml
   name        = "capstantls"
   description = "This is the wildcard certificate to be used in L7 LB Terminiation"
+
+  #these file names may be expected elsewhere in bash
   private_key = "${file("../scripts/private.pem")}"
   certificate = "${file("../scripts/certificate.crt")}"
 }

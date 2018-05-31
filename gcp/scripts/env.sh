@@ -12,7 +12,7 @@ BUCKET_LOCATION=us
 
 ##### TLS Paths if you have them enter them here and comment out line in create_jenkins.sh otherwise the files will be created at this locations
 TLS_CERT="certificate.crt"
-TLS_KEY="privatekey.key"
+TLS_KEY="private.pem"
 JENKINSNS="jenkins"
 #only used for spinnaker configuration
 JENKINS_ADMIN_USER="admin"
