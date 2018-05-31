@@ -32,7 +32,7 @@ SPINNAKER_VERSION="1.7.5"
 CANARY_METRIC_STORE="stackdriver"
 
 DOCKER_HUB_NAME="dockerhubimagerepository"
-DOCKER_REPO="netflixoss/eureka netflixoss/zuul owasp/zap2docker-stable"
+DOCKER_REPO="netflixoss/eureka netflixoss/zuul owasp/zap2docker-stable webgoat/webgoat-8.0"
 DOCKER_ADDR="index.docker.io"
 
 OMIT_NAMESPACES=$JENKINSNS
