@@ -67,6 +67,7 @@ Since, you were successful with `glcoud ssh` there is already a ssh configuratio
 
 ## Finally You are ready to begin
 
+**WAIT!!!! Did you want TLS, DNS, and Oauth2? If you did go [HERE](DNSTLSOauth2.md)**
 
 
 At this point, you need to change directory into the terraform folder and type:
