@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spinnaker-app-ingress
+  namespace: spinnaker
+  annotations:
+      ingress.gcp.kubernetes.io/pre-shared-cert: 'capstantls'
+      
+spec:
+  rules:
+  - host: SPINUX
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: spin-deck-nodeport-service
+          servicePort: 9000
+  - host: SPINAPI
+    http:
+      paths: 
+      - path: /*
+        backend:
+          serviceName: spin-gate-nodeport-service
+          servicePort: 8084
+
+          
