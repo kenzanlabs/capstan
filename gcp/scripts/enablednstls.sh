@@ -66,3 +66,4 @@ echo " https://$UX_FQDN is the place to be"
 echo " Please Be Advised that DNS may take a while to propagate"
 echo "=========================================="
 echo "******************************************"
+
