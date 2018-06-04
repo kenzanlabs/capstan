@@ -16,7 +16,7 @@ HALYARD_CANARY_ACCOUNT_NAME="$CLUSTER_NAME-canary"
 
 echo "******************************************"
 echo "=========================================="
-echo " - Let's Get this Halyard Thing Together -"
+echo " - Let's Get Core Spinnaker Config Together -"
 echo "=========================================="
 
 PROJECT_NAME=$(gcloud info --format='value(config.project)')
@@ -122,18 +122,8 @@ echo $JENKINS_PW | $H_CMD
 
 hal config ci jenkins enable
 
-echo "==== -> Let's Diff our Deployment real quick"
-
-hal deploy diff
-
-
-echo "======= Time to be Gangsta, this will take a while  ========"
-hal deploy apply
-
 
 echo "=========================================="
-echo " - Hopefully there is a Spinnaker -"
-echo " - Tunnel to halyard-tunnel and"
-echo " - then run hal deploy connect"
+echo " - Core Spinnaker Config -"
 echo "=========================================="
 echo "******************************************"
