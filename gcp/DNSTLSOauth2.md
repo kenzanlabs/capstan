@@ -1,6 +1,6 @@
 # TLS all the things
 
-This describes how to make your spinnaker accessible without and SSH tunnel. Luckily, this configuration is an option that you enable with minimal configuration on your part.
+This describes how to make your spinnaker accessible without and SSH tunnel. Luckily, this configuration is an option that you enable with minimal configuration on your part. However, this should consider an advanced configuration. 
 
 In this readme you will learn:
 1. How to configure Oauth2 
@@ -10,7 +10,7 @@ In this readme you will learn:
 **Why?** Because we are all adults and we know that Token authentication, proper domain names, and TLS endpoints are the right things todo.
 
 In this document:
-- $FQDN is used to represent the domainname like `example.com`
+- $DOMAIN is used to represent the domainname like `example.com`
 - $IP is used to represent a IP address
 
 ## TL;DR
@@ -33,8 +33,8 @@ The automated approach assumes you are using [Google Cloud DNS](https://cloud.go
 2. Record the zone name
 3. Update the following terraform attributes:
    1. X with With the zone name
-   2. Y with FQDN for spinnaker user experience like spinnaker.$FQDN 
-   3. x with FQDN for Spinnaker API  like spinnaker-api.$FQDN
+   2. Y with the full domain name for spinnaker user experience like spinnaker.$DOMAIN 
+   3. x with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN
 
 
 DONE
@@ -45,8 +45,8 @@ DONE
 Have no fear, as capstan builds the environment with DNS enabled it will output the $IP address of the L7 LoadBalancer that performs host path management to the right Spinnaker subsystem. 
 
 You will then need to update terraform with
-1. Y with FQDN for spinnaker user experience like spinnaker.$FQDN
-2. x with FQDN for Spinnaker API  like spinnaker-api.$FQDN
+1. Y with the full domain name for spinnaker user experience like spinnaker.$DOMAIN
+2. x with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN
 
 On your DNS provider you will create two `A` records with the $IP emitted as part of the CAPSTAN build process. Yes, the same $IP for both the UX and API. 
 
@@ -59,7 +59,7 @@ You have decided to go with CA signed certificates or Let's Encrypt. Because you
 
 Your procedure is as follows:
 1. Obtain a private key that was used to create your certificate
-2. obtain the certificate file....make sure the CN (common name) is `*.$FQDN` like `*.example.com`
+2. obtain the certificate file....make sure the CN (common name) is `*.$DOMAIN` like `*.example.com`
 3. place the private key file in the `scripts` folder and name is `private.pem`
 4. place the certificate file in the `scripts` folder and name it `certificate.crt`
 
@@ -67,6 +67,15 @@ DONE
 
 ### Configuring OAUTH2
 
-Finally, we need to perform and OAUTH2 configuration. 
+Finally, we need to perform OAUTH2 configuration. For a successfull configureation we need the following four pieces of information
+
+1. The Client ID
+2. The Client Secret
+3. Which provider...string value from [google|github|xxxxx]
+4. Domain Restiction like `mycompany.com`
+5. You will need to set the authorized redirect URL to `https://spinnaker-api.$DOMAIN/login`
+
+Using your project's 
 
 ## Activating 
+
