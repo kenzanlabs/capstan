@@ -18,6 +18,6 @@ hal config security authn oauth2 enable
 
 
 echo "=========================================="
-echo " - Core Spinnaker Config -"
+echo " - OAUTH2 config -"
 echo "=========================================="
 echo "******************************************"
