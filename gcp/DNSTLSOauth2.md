@@ -31,10 +31,10 @@ The automated approach assumes you are using [Google Cloud DNS](https://cloud.go
 
 1. Create a [Managed Zone](https://cloud.google.com/dns/quickstart)
 2. Record the zone name
-3. Update the following terraform attributes:
-   1. X with With the zone name
-   2. Y with the full domain name for spinnaker user experience like spinnaker.$DOMAIN 
-   3. x with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN
+3. Update the following terraform attributes in `variables.tf`:
+   1. `gcp_dns_zonename` with With the zone name
+   2. `ux_fqdn` with the full domain name for spinnaker user experience like spinnaker.$DOMAIN, do not add protocal (AKA http or https)
+   3. `api_fqdn` with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN, do not add protocal (AKA http or https)
 
 
 DONE
@@ -44,11 +44,13 @@ DONE
 
 Have no fear, as capstan builds the environment with DNS enabled it will output the $IP address of the L7 LoadBalancer that performs host path management to the right Spinnaker subsystem. 
 
-You will then need to update terraform with
-1. Y with the full domain name for spinnaker user experience like spinnaker.$DOMAIN
-2. x with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN
+You will then need to update terraform attributes in `variables.tf`
+1. `ux_fqdn` with the full domain name for spinnaker user experience like spinnaker.$DOMAIN, do not add protocal (AKA http or https)
+2. `api_fqdn` with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN, do not add protocal (AKA http or https)
 
 On your DNS provider you will create two `A` records with the $IP emitted as part of the CAPSTAN build process. Yes, the same $IP for both the UX and API. 
+
+Leave `gcp_dns_zonename` as is. 
 
 #### Oh, but I do not have a DNS name
 
@@ -60,7 +62,7 @@ You have decided to go with CA signed certificates or Let's Encrypt. Because you
 Your procedure is as follows:
 1. Obtain a private key that was used to create your certificate
 2. obtain the certificate file....make sure the CN (common name) is `*.$DOMAIN` like `*.example.com`
-3. place the private key file in the `scripts` folder and name is `private.pem`
+3. place the private key file in the `scripts` folder and name it `private.pem`
 4. place the certificate file in the `scripts` folder and name it `certificate.crt`
 
 DONE
@@ -71,11 +73,20 @@ Finally, we need to perform OAUTH2 configuration. For a successfull configureati
 
 1. The Client ID
 2. The Client Secret
-3. Which provider...string value from [google|github|xxxxx]
-4. Domain Restiction like `mycompany.com`
-5. You will need to set the authorized redirect URL to `https://spinnaker-api.$DOMAIN/login`
+3. ~~Which provider...string value from [google|github|azure]~~ only google is supported by capstan at present
+4. Domain Restiction `mycompany.com`
 
-Using your project's 
+
+- Capstan was tested with GSUITE/GCP. To set-up Oauth2 in your GCP project follow the support [guide](https://support.google.com/cloud/answer/6158849).
+- When setting up the credentials make sure you set the authorized redirect URL to `https://$api_fqdn/login` like https://spinnaker-api.example.com/login
+
+You will need to update the terraform attributes in `variables.tf`
+- `oauth2_clientid` with the clientId
+- `oauth2_secret` with the client secret
+- `gsuite` with the gsuite domain of who is allowed to login.
+ 
 
 ## Activating 
+
+If you have update all the variables terraform attributes in `variables.tf`
 
