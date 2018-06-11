@@ -88,5 +88,17 @@ You will need to update the terraform attributes in `variables.tf`
 
 ## Activating 
 
-If you have update all the variables terraform attributes in `variables.tf`
+If you have updated all the variables terraform attributes in `variables.tf` up to this point you are almost ready to activate the DNS/TLS/Oauth2 capability. 
 
+To active perform the following
+
+1. rename `tls.tf.noop` in the terraform folder for gcp to `tls.tf`
+1. Uncomment the following lines in `instance.tf`
+   1. `#"google_compute_ssl_certificate.genericwildcard",`
+   1. `#"/home/${var.ssh_user}/enableOauth2.sh ${var.gcp_project_id} ${var.ux_fqdn} ${var.api_fqdn} ${var.oauth2_clientid} ${var.oauth2_secret} ${var.gsuite}",`
+   1. `#"/home/${var.ssh_user}/enablednstls.sh ${var.gcp_project_id} ${var.ux_fqdn} ${var.api_fqdn} ${var.gcp_dns_zonename}",`
+
+
+# Fire at will
+
+ Whoa that was intense! Time to return to the main readme to perform `terraform plan`
