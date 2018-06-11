@@ -52,10 +52,10 @@ resource "google_compute_instance" "halyardtunnel" {
       "/home/${var.ssh_user}/helm_packages.sh",
       "/home/${var.ssh_user}/halyard_createSpinnaker.sh ${var.gcp_project_id} ${var.gke_cluster_name} ${var.gke_primary_zone}",
 
-      #"/home/${var.ssh_user}/enableOauth2.sh",
+      #"/home/${var.ssh_user}/enableOauth2.sh ${var.gcp_project_id} ${var.ux_fqdn} ${var.api_fqdn} ${var.oauth2_clientid} ${var.oauth2_secret} ${var.gsuite}",
       "/home/${var.ssh_user}/deploy_Spinnaker.sh",
 
-      #"/home/${var.ssh_user}/enablednstls.sh",
+      #"/home/${var.ssh_user}/enablednstls.sh ${var.gcp_project_id} ${var.ux_fqdn} ${var.api_fqdn} ${var.gcp_dns_zonename}",
       "/home/${var.ssh_user}/noop.sh",
     ]
   }
