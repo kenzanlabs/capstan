@@ -65,11 +65,12 @@ _If you already created the json key file previsoulsy, skip to step 5_
 
 Since, you were successful with `glcoud ssh` there is already a ssh configuration information located in `/home/[username]/.ssh/google_compute_engine`. Terraform will expect them to be there.
 
+## For Advanced Users
+
+If you consider yourself DNS/TLS/Oauth2 capable, consider enabling those features [here](DNSTLSOauth2.md) before continuing. 
+
+
 ## Finally You are ready to begin
-
-
-**If you consider yourself an adnvanced user consider DNS TLS and Oauth2 [HERE](DNSTLSOauth2.md) first.**
-
 
 At this point, you need to change directory into the terraform folder and type:
 
@@ -83,9 +84,9 @@ it will prompt you for the ssh username and google project id. It will then show
 
 `terraform apply` and enter the ssh user name and project id again.
 
-Now, wait 20 minutes.
+Now, wait 20 minutes. 
 
-## Validate your new Toys
+## Validate and connect with your new Toys
 
 In all that Terraform Madness, there was this line...maybe 8 minutes into the process:
 
@@ -119,12 +120,6 @@ So that would be **check #2**
 Done!
 
 
-If you want acccess to the K8 user experince:
-- gcloud container clusters get-credentials [name of GKE cluster]
-- kubectl proxy
-- open `http://localhost:8001/ui` in a browser and you should the K8 web console
-
-
 ## Post Deploy Jenkins Set-up
 
 Access the Jenkins console to enable K8 based building.
@@ -139,7 +134,10 @@ Access the Jenkins console to enable K8 based building.
 Repeat this process and in the "Kind" dropdown select "Kubernetes Service Account"
 
 
-NOTICE: Do not configure the kubernetes plugin to use credentials
+NOTICE: 
+- Do not configure the kubernetes plugin to use credentials
+- Do check Release note for jenkins related items
+
 
 ## Do see the Release notes
 
