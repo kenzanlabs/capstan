@@ -7,6 +7,7 @@ resource "google_compute_instance" "halyardtunnel" {
     #"google_project_service.iam_service",
     #"google_project_service.cloudresourcemanager_service",
     #"google_project_service.container_service",
+    #"google_compute_ssl_certificate.genericwildcard",
     "google_project_iam_policy.project",
 
     "google_container_cluster.primary",
