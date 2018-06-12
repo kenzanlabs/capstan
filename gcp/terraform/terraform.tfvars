@@ -31,7 +31,7 @@ creds_file = "gcp-account.json"
 #
 halyard_machine_type = "n1-standard-1"
 
-ubuntu_image = "ubuntu-1404-trusty-v20180522"
+ubuntu_image = "ubuntu-1404-trusty-v20180110"
 
 halyard_machine_name = "halyard-tunnel"
 
