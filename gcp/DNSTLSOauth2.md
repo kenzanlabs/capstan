@@ -62,8 +62,8 @@ You have decided to go with CA signed certificates or Let's Encrypt. Because you
 Your procedure is as follows:
 1. Obtain a private key that was used to create your certificate
 2. obtain the certificate file....make sure the CN (common name) is `*.$DOMAIN` like `*.example.com`
-3. place the private key file in the `scripts` folder and name it `private.pem`
-4. place the certificate file in the `scripts` folder and name it `certificate.crt`
+3. place the private key file in the `terraform` folder and name it `private.pem`
+4. place the certificate file in the `terraform` folder and name it `certificate.crt`
 
 DONE
 
