@@ -16,6 +16,11 @@ UX_FQDN=$2
 API_FQDN=$3
 DNS_ZONENAME=$4
 
+echo "Project : $PROJECT_NAME "
+echo "UX      : $UX_FQDN "
+echo "API     : $API_FQDN "
+echo "        : $DNS_ZONENAME "
+echo "=========================================="
 
 kubectl apply -f spin-deck-nodeport.yml
 kubectl apply -f spin-gate-nodeport.yml

@@ -18,6 +18,12 @@ CLIENT_ID=$4
 CLIENT_SECRET=$5
 GSDOMAIN=$6
 
+echo "Project : $PROJECT_NAME "
+echo "UX      : $DNSTLSUI "
+echo "API     : $DNSTLSAPI "
+echo "GSuite  : $GSDOMAIN"
+echo "=========================================="
+
 hal config security ui edit --override-base-url "https://$DNSTLSUI"
 hal config security api edit --override-base-url "https://$DNSTLSAPI"
 hal config security authn oauth2 edit --client-id $CLIENT_ID  --client-secret $CLIENT_SECRET --provider google --user-info-requirements hd=$GSDOMAIN
