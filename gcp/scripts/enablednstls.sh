@@ -28,26 +28,26 @@ kubectl apply -f spin-gate-nodeport.yml
 cp spinnaker-ingress.yml.orig spinnaker-ingress.yml
 sed -i "s/SPINUX/$UX_FQDN/g" spinnaker-ingress.yml
 sed -i "s/SPINAPI/$API_FQDN/g" spinnaker-ingress.yml
-
-
+#create some time for the nodeports, yes this is an arbitrary number
+sleep 30
 kubectl apply -f spinnaker-ingress.yml 
 echo " ***** ATTENTION ******"
 echo " ** Kubectl Lies!  **"
 echo " ** we need to wait for backend services **"
-echo " ** For Maybe Five Minutes **"
+echo " ** For Maybe Fifteen Minutes, Yikes! **"
 echo " ** Then the reported IP is the actual IP**"
 
 HEALTH_BACKENDS_COUNT=0
 
 echo "Healthy Backends: "
 
-while [ $HEALTH_BACKENDS_COUNT LT 3 ]
+while [[ $HEALTH_BACKENDS_COUNT -lt 3 ]]
 do 
-    sleep 10
+    
     echo -e ". $HEALTH_BACKENDS_COUNT \c"
     HEALTHY_BACKENDS=$(kubectl describe ingress --namespace spinnaker spinnaker-app-ingress | grep "backends")
     HEALTH_BACKENDS_COUNT=$(echo $HEALTHY_BACKENDS | grep -wo "HEALTHY" | wc -w)
-    sleep 20
+    sleep 30
 
 done
 
