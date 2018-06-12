@@ -26,8 +26,8 @@ kubectl apply -f spin-deck-nodeport.yml
 kubectl apply -f spin-gate-nodeport.yml
 # Time to search replace for hostnames
 cp spinnaker-ingress.yml.orig spinnaker-ingress.yml
-sed -i 's/SPINUX/$UX_FQDN/g spinnaker-ingress.yml'
-sed -i 's/SPINAPI/$API_FQDN/g spinnaker-ingress.yml'
+sed -i "s/SPINUX/$UX_FQDN/g" spinnaker-ingress.yml
+sed -i "s/SPINAPI/$API_FQDN/g" spinnaker-ingress.yml
 
 
 kubectl apply -f spinnaker-ingress.yml 
@@ -41,12 +41,13 @@ HEALTH_BACKENDS_COUNT=0
 
 echo "Healthy Backends: "
 
-while [ $HEALTH_BACKENDS_COUNT LT 3]
+while [ $HEALTH_BACKENDS_COUNT LT 3 ]
 do 
+    sleep 10
     echo -e ". $HEALTH_BACKENDS_COUNT \c"
     HEALTHY_BACKENDS=$(kubectl describe ingress --namespace spinnaker spinnaker-app-ingress | grep "backends")
     HEALTH_BACKENDS_COUNT=$(echo $HEALTHY_BACKENDS | grep -wo "HEALTHY" | wc -w)
-    sleep 30
+    sleep 20
 
 done
 
