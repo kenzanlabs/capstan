@@ -78,7 +78,7 @@ Finally, we need to perform OAUTH2 configuration. For a successfull configureati
 
 
 - Capstan was tested with GSUITE/GCP. To set-up Oauth2 in your GCP project follow the support [guide](https://support.google.com/cloud/answer/6158849).
-- When setting up the credentials make sure you set the authorized redirect URL to `https://$api_fqdn/login` like https://spinnaker-api.example.com/login
+- When setting up the credentials make sure you set the authorized redirect URL to `https://$api_fqdn/login` like https://spinnaker-api.example.com/login and the `http` version. So you should have two redirect url(S), one that is `http` and the other `https`
 
 You will need to update the terraform attributes in `variables.tf`
 - `oauth2_clientid` with the clientId
@@ -102,3 +102,17 @@ To active perform the following
 # Fire at will
 
  Whoa that was intense! Time to return to the main readme to perform `terraform plan`
+
+ ** Since this version is using GCP's [L7 loadbalancer](https://github.com/kubernetes/ingress-gce/) for TLS termination, there is an async operation that delays readiness. This is noted in the output near the end of a succeesful build **
+
+
+# Clean up when done
+
+When you are done with this environment created by CAPSTAN you have to perform two manual clean-up steps before using `terraform destroy`. You have to manually remove the ingress resource that created the loadbalancer serving https://$UI_FQDN for spinnaker. You will also need to manual purge DNS entries
+
+1. Access the kubernetes section of the Google Cloud Console
+1. Locate the `Services` sub section and locate the `spinnaker-app-ingress`
+1. Delete that entry
+1. Delete the DNS entries from your DNS provider (Google Cloud DNS or otherwise)
+
+You can now `terraform destroy`
