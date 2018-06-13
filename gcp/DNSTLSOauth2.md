@@ -1,13 +1,13 @@
-# TLS all the things
+# TLS all-the-things
 
 This describes how to make your spinnaker accessible without and SSH tunnel. Luckily, this configuration is an option that you enable with minimal configuration on your part. However, this should consider an advanced configuration. 
 
 In this readme you will learn:
 1. How to configure Oauth2 
-2. How to configure TLS terminated spinnaker
+2. How to configure TLS terminated at the load balancer forspinnaker
 3. What DNS steps you can have automated or manually configured
 
-**Why?** Because we are all adults and we know that Token authentication, proper domain names, and TLS endpoints are the right things todo.
+**Why?** Because we are all adults and we know that token authentication, proper domain names, and TLS endpoints are the right things todo.
 
 In this document:
 - $DOMAIN is used to represent the domainname like `example.com`
@@ -32,32 +32,40 @@ The automated approach assumes you are using [Google Cloud DNS](https://cloud.go
 1. Create a [Managed Zone](https://cloud.google.com/dns/quickstart)
 2. Record the zone name
 3. Update the following terraform attributes in `variables.tf`:
-   1. `gcp_dns_zonename` with With the zone name
+   1. `gcp_dns_zonename` with  the zone name
    2. `ux_fqdn` with the full domain name for spinnaker user experience like spinnaker.$DOMAIN, do not add protocal (AKA http or https)
    3. `api_fqdn` with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN, do not add protocal (AKA http or https)
 
 
-DONE
+DONE, the automation will update the DNS name.
 
 
 #### Oh, but I am not using Google Cloud DNS
 
 Have no fear, as capstan builds the environment with DNS enabled it will output the $IP address of the L7 LoadBalancer that performs host path management to the right Spinnaker subsystem. 
 
-You will then need to update terraform attributes in `variables.tf`
+You still need to update terraform attributes in `variables.tf`
 1. `ux_fqdn` with the full domain name for spinnaker user experience like spinnaker.$DOMAIN, do not add protocal (AKA http or https)
 2. `api_fqdn` with the full domain name for Spinnaker API  like spinnaker-api.$DOMAIN, do not add protocal (AKA http or https)
 
-On your DNS provider you will create two `A` records with the $IP emitted as part of the CAPSTAN build process. Yes, the same $IP for both the UX and API. 
+On your DNS provider you will create two `A` records with the $IP emitted as part of the CAPSTAN build process. 
+
+```
+google_compute_instance.halyardtunnel (remote-exec): ==========================================
+google_compute_instance.halyardtunnel (remote-exec):  - IP is  35.186.225.196 for spinnaker.example.com and spinnaker-api.example.com -
+google_compute_instance.halyardtunnel (remote-exec): ==========================================
+```
+
+Yes, the same $IP for both the UX and API since we are using an L7 load balancer.
 
 Leave `gcp_dns_zonename` as is. 
 
 #### Oh, but I do not have a DNS name
 
-You don't have $12? 
+You don't have $12?
 
 ### Configuring TLS
-You have decided to go with CA signed certificates or Let's Encrypt. Because you are an adult and you know Self-signed is for chumps. *This version currently uses a wildcard certificate to cover both DNS names required and was tested with Lets's Encrypt*
+You have decided to go with CA signed certificates or Let's Encrypt. Because you are an adult and you know Self-signed is for chumps. *This version currently uses a wildcard certificate to cover both DNS names required and was tested with Lets's Encrypt using certbot [here](https://gist.github.com/nparks-owasp/517503264e04925ce1a1f3685c61805d).*
 
 Your procedure is as follows:
 1. Obtain a private key that was used to create your certificate
@@ -69,7 +77,7 @@ DONE
 
 ### Configuring OAUTH2
 
-Finally, we need to perform OAUTH2 configuration. For a successfull configureation we need the following four pieces of information
+Finally, we need to perform OAUTH2 configuration. For a successfull configuration we need the following four pieces of information:
 
 1. The Client ID
 2. The Client Secret
