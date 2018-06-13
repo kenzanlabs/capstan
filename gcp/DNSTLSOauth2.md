@@ -4,7 +4,7 @@ This describes how to make your spinnaker accessible without and SSH tunnel. Luc
 
 In this readme you will learn:
 1. How to configure Oauth2 
-2. How to configure TLS terminated at the load balancer forspinnaker
+2. How to configure TLS terminated at the load balancer for spinnaker
 3. What DNS steps you can have automated or manually configured
 
 **Why?** Because we are all adults and we know that token authentication, proper domain names, and TLS endpoints are the right things todo.
@@ -111,7 +111,7 @@ To active perform the following
 
  Whoa that was intense! Time to return to the main readme to perform `terraform plan`
 
- ** Since this version is using GCP's [L7 loadbalancer](https://github.com/kubernetes/ingress-gce/) for TLS termination, there is an async operation that delays readiness. This is noted in the output near the end of a succeesful build **
+ **Since this version is using GCP's [L7 loadbalancer](https://github.com/kubernetes/ingress-gce/) for TLS termination, there is an async operation that delays readiness. This is noted in the output near the end of a succeesful build**
 
 
 # Clean up when done
