@@ -5,7 +5,11 @@
 What is a [Capstan?](https://en.wikipedia.org/wiki/Capstan_(nautical))?
 Packaging of open source for creating Containerized CICD Environments.
 
-if you are here you are interested in:
+## Motivation
+
+Microservices, containers, canary, cloud, Continuous Delivery oh my! With all the myriad of technologies processes and architectures, where does a developer even begin? CAPSTAN attempts to bring all those components together to where a developer can be immediately productive developing software on a containerized continuous software delivery platform in the cloud.
+
+So, if you are interested in:
 - Using Kubernetes
 - Using Spinnaker
 - Using a Cloud Iaas
@@ -27,28 +31,17 @@ Oh, we have a solution for you!
    1. AWS CLI
    1. AZURE SDK
 
-## Google Cloud Platform
+## Supported Target Platforms
+### Google Cloud Platform
 
 1. The Procedure is described  [here](./gcp/README.md)
 
-## Amazon Web Services
+### Amazon Web Services
 
-1. I will throw our good friend @jpancoast-kenzan under the bus at https://github.com/kenzanlabs/spinnaker-terraform
-1. Otherwise waiting on EKS like everyone else
+1. EKS edition is coming soon
 
-## Azure
+### Azure
 
-Coming...
-
-## Reference Pipeline
-
-As part of the *Infrastructure-as-code* story a couple *declarative pipelines* will be included that are IaaS agnostic. When all the IaaS(s) are added.
-
-## See Also
-
-1. [Continuous Delivery with Spinnaker and Kubernetes](http://continuousdelivery.kenzan.com/)
-
-
-
+Volunteers?
 
 

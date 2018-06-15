@@ -7,7 +7,7 @@ The process is illustrated as follows:
 
 Essentially, from your workstation you are using TerraForm to create a service account. K8 cluster and to launch and instance that will run a script landed by terraform to perform the creation of  jenkins and Spinnaker.
 
-If you have no idea how to even use GCP I would recommend a [coursera course](https://www.coursera.org/learn/gcp-infrastructure-foundation)
+If you want to learn more about using GCP, I would recommend a [coursera course](https://www.coursera.org/learn/gcp-infrastructure-foundation) but it is not a prerequisite.
 
 
 ## Let's Get Started
@@ -125,19 +125,21 @@ Done!
 Access the Jenkins console to enable K8 based building.
 
 
-1. In the Jenkins UI, Click “Credentials” on the left
-1. Click either of the “(global)” links (they both route to the same URL)
+1. In the Jenkins UI, Click `Credentials` on the left
+1. Click the “(global)” link
 1. Click “Add Credentials” on the left
-1. From the “Kind” dropdown, select “Google Service Account from metadata”
+1. From the “Kind” dropdown, select “Kubernetes Service Account”
 1. Click “OK”
+   1. You should get a name generated that looks like a GUID
+1. Navigate to `Manage Jenkins` and then `configure system`
+1. Scroll to cloud / Kubernetes settings
+1. Locate the `Credentials` dropdown and select the GUID name
+1. Save
+1. DONE
 
-Repeat this process and in the "Kind" dropdown select "Kubernetes Service Account"
 
 
-NOTICE: 
-- Do not configure the kubernetes plugin to use credentials
-- Do check Release note for jenkins related items
-
+NOTICE: Do not configure the `kubernetes plugin` under plugins to use credentials
 
 ## Do see the Release notes
 
