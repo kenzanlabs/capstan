@@ -1,6 +1,6 @@
 # TLS all-the-things
 
-This describes how to make your spinnaker accessible without and SSH tunnel. Luckily, this configuration is an option that you enable with minimal configuration on your part. However, this should consider an advanced configuration. 
+This describes how to make your spinnaker accessible without an SSH tunnel. Luckily, this configuration is an option that you enable with minimal configuration on your part. However, this should be considered an advanced configuration. 
 
 In this readme you will learn:
 1. How to configure Oauth2 
@@ -11,7 +11,7 @@ In this readme you will learn:
 
 In this document:
 - $DOMAIN is used to represent the domainname like `example.com`
-- $IP is used to represent a IP address
+- $IP is used to represent an IP address
 
 ## TL;DR
 
