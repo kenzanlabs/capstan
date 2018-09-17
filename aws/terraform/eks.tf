@@ -150,5 +150,7 @@ users:
         - "token"
         - "-i"
         - "${aws_eks_cluster.eks.name}"
+        - "r"
+        - "arn:aws:iam::${var.aws_account_id}:role/${var.aws_role_name}"
 KUBECONFIG
 }
