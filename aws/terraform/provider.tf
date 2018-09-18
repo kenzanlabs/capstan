@@ -11,12 +11,12 @@ provider "aws" {
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
 
-    assume_role {
-        # export TF_VAR_aws_account_id="numbers"
+ #   assume_role {
+  #      # export TF_VAR_aws_account_id="numbers"
         # export TF_VAR_aws_role_name="name"
-        role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_role_name}"
-        session_name = "capstanOnAWS@kenzan.com"  
-    } 
+   #     role_arn     = "arn:aws:iam::${var.aws_account_id}:role/${var.aws_role_name}"
+    #    session_name = "capstanOnAWS@kenzan.com"  
+    #} 
 
 }
 
