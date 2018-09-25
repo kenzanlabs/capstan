@@ -30,6 +30,12 @@ variable "eks_instance_size" {
   type    = "string"
 }
 
+variable "ec2_key" {
+  default = "capstan"
+  type    = "string"
+}
+
+
 #### PROVIDER VALUES OVER RIDE with TF_VAR as exports
 variable "aws_access_key" {
   default = ""

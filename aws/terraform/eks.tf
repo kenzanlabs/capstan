@@ -53,11 +53,13 @@ USERDATA
 resource "aws_launch_configuration" "alc" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.instprofile.name}"
-  image_id                    = "${data.aws_ami.eks-worker.id}"
+  #image_id                    = "${data.aws_ami.eks-worker.id}"
+  image_id = "ami-0a54c984b9f908c81"
   instance_type               = "${var.eks_instance_size}"
   name_prefix                 = "${var.gen_solution_name}"
   security_groups             = ["${aws_security_group.worker-node.id}"]
   user_data_base64            = "${base64encode(local.demo-node-userdata)}"
+  key_name ="${var.ec2_key}"
 
   lifecycle {
     create_before_destroy = true
@@ -90,8 +92,6 @@ resource "aws_autoscaling_group" "worker-asg" {
 
 locals {
   config_map_aws_auth = <<CONFIGMAPAWSAUTH
-
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
