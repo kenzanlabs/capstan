@@ -15,3 +15,16 @@ resource "local_file" "kubeconf" {
 }
 
 #####
+
+resource "aws_instance" "bastion" {
+  ami           = "${var.ec2_ami_id}"
+  instance_type = "t2.large"
+  key_name = "${var.ec2_key}"
+  vpc_security_group_ids =["${aws_security_group.bastion.id}"]
+  associate_public_ip_address = true
+  provisioner "file" {
+    source      = "${local_file.kubeconf.filename}"
+    destination = "/home/${var.ec2_ssh_user}"
+  }
+  
+}
