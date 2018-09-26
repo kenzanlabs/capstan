@@ -30,7 +30,7 @@ resource "aws_iam_instance_profile" "instprofile" {
 data "aws_ami" "eks-worker" {
   filter {
     name   = "name"
-    values = ["eks-worker-*"]
+    values = ["amazon-eks-node-v*"]
   }
 
   most_recent = true
@@ -53,8 +53,8 @@ USERDATA
 resource "aws_launch_configuration" "alc" {
   associate_public_ip_address = true
   iam_instance_profile        = "${aws_iam_instance_profile.instprofile.name}"
-  #image_id                    = "${data.aws_ami.eks-worker.id}"
-  image_id = "ami-0a54c984b9f908c81"
+  image_id                    = "${data.aws_ami.eks-worker.id}"
+  #image_id = "ami-0a54c984b9f908c81"
   instance_type               = "${var.eks_instance_size}"
   name_prefix                 = "${var.gen_solution_name}"
   security_groups             = ["${aws_security_group.worker-node.id}"]
