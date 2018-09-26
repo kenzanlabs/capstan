@@ -23,17 +23,35 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids =["${aws_security_group.bastion.id}"]
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.sbnet.*.id[0]}"
-  provisioner "file" {
-    source      = "${local_file.kubeconf.filename}"
-    destination = "/home/${var.ec2_ssh_user}/"
 
-  connection {
+ connection {
     user        = "${var.ec2_ssh_user}"
     private_key = "${file(var.ec2_key_file)}"
     agent       = false
   }
 
+  provisioner "file" {
+    source      = "${local_file.kubeconf.filename}"
+    destination = "/home/${var.ec2_ssh_user}/${local_file.kubeconf.filename}"
   }
+
+    provisioner "file" {
+    source      = "../scripts/"
+    destination = "/home/${var.ec2_ssh_user}"
+  }
+
+  provisioner "file" {
+    source      = "../../pipelines"
+    destination = "/home/${var.ec2_ssh_user}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /home/${var.ec2_ssh_user}/*.sh",
+      "/home/${var.ec2_ssh_user}/instance_setup.sh"
+    ]
+  }
+
 
     tags = "${
     map(
