@@ -37,6 +37,11 @@ variable "ec2_key" {
   type    = "string"
 }
 
+variable "ec2_key_file" {
+  default = "capstan.pem"
+  type    = "string"
+}
+
 variable "ec2_ami_id" {
   # We are looking for ubuntu 16 LTS +
   default = "ami-0e32ec5bc225539f5"
