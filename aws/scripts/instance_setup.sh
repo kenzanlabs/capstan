@@ -16,6 +16,12 @@ get_latest_release() {
 
 sudo apt-get update
 
+
+echo ">>>>> Get AWS Authenticator"
+curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+chmod +x aws-iam-authenticator
+sudo mv aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+
 echo ">>>> Get Kubectl"
 ### We need to get kubectl from AMAZON for the time being
 curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/kubectl
@@ -57,13 +63,11 @@ sudo mv roer-linux-amd64 /usr/local/bin/roer
 echo ">>>> Add the SPINNAKER_API environ"
 echo -e "\nexport SPINNAKER_API=http://127.0.0.1:8084\n" >> ~/.profile
 
-echo ">>>>> Get AWS Authenticator"
-curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
-chmod +x aws-iam-authenticator
-sudo mv aws-iam-authenticator /usr/local/bin/aws-iam-authenticator
+
 
 
 echo $PWD
+kubectl get nodes
 echo "=========================================="
 echo " - Configuration Set-up Complete -"
 echo "=========================================="
