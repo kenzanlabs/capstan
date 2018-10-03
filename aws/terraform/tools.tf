@@ -14,6 +14,20 @@ resource "local_file" "kubeconf" {
     filename = "generated-kube.conf"
 }
 
+resource "null_resource" "kubeconfigmap" {
+  provisioner "local-exec" {
+    command = "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl"   
+  }
+
+    provisioner "local-exec" {
+    command = "chmod +x kubectl"   
+  }
+
+      provisioner "local-exec" {
+    command = "./kubectl --kubeconfig=${local_file.kubeconf.filename} apply -f ${local_file.configmap.filename}"   
+  }
+}
+
 #####
 
 resource "aws_instance" "bastion" {
@@ -23,6 +37,7 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids =["${aws_security_group.bastion.id}"]
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.sbnet.*.id[0]}"
+  iam_instance_profile ="${var.capstan_bastion_role_name}"
 
  connection {
     user        = "${var.ec2_ssh_user}"
@@ -33,6 +48,11 @@ resource "aws_instance" "bastion" {
   provisioner "file" {
     source      = "${local_file.kubeconf.filename}"
     destination = "/home/${var.ec2_ssh_user}/${local_file.kubeconf.filename}"
+  }
+
+  provisioner "file" {
+    source      = "${local_file.configmap.filename}"
+    destination = "/home/${var.ec2_ssh_user}/${local_file.configmap.filename}"
   }
 
     provisioner "file" {
