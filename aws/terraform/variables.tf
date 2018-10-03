@@ -6,7 +6,7 @@
 #### General
 
 variable "gen_solution_name" {
-  default = "cicd-runtime"
+  default = "cd-env"
   type    = "string"
 }
 
@@ -30,6 +30,11 @@ variable "eks_instance_size" {
   type    = "string"
 }
 
+variable "capstan_user_role_name" {
+  default = "capstan-user"
+  type    = "string"
+}
+
 #### EC2
 
 variable "ec2_key" {
@@ -50,6 +55,12 @@ variable "ec2_ami_id" {
 
 variable "ec2_ssh_user" {
   default = "ubuntu"
+  type    = "string"
+}
+
+
+variable "capstan_bastion_role_name" {
+  default = "capstan-bastion"
   type    = "string"
 }
 

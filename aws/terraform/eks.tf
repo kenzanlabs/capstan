@@ -104,6 +104,14 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.capstan_user_role_name}
+      username: capstan-user
+      groups:
+        - system:masters
+    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.capstan_bastion_role_name}
+      username: capstan-bastion
+      groups:
+        - system:masters
 CONFIGMAPAWSAUTH
 
   kubeconfig = <<KUBECONFIG
