@@ -14,7 +14,11 @@ get_latest_release() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
+
+echo ">>>> Let's do an update and install some stuff"
 sudo apt-get update
+sudo apt-get install git golang-go -y
+
 
 
 echo ">>>>> Get AWS Authenticator"
@@ -50,9 +54,7 @@ sudo mv linux-amd64/helm /usr/local/bin/helm
 
 
 
-echo ">>>> Get git and other good stuffs"
-### get git
-sudo apt-get install git golang-go -y
+
 
 echo ">>>> Get Roer"
 ROER_VERSION=$( get_latest_release "spinnaker/roer" )
