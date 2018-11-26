@@ -1,0 +1,360 @@
+{
+  "application": "helloagain",
+  "expectedArtifacts": [],
+  "id": "9c6e7a02-3d2a-4eba-acbe-9abf35892736",
+  "index": 1,
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "name": "prod-deploy",
+  "parameterConfig": [],
+  "stages": [
+   {
+    "name": "Sleep",
+    "refId": "1",
+    "requisiteStageRefIds": [],
+    "type": "wait",
+    "waitTime": 15
+   },
+   {
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-prod",
+    "credentials": "cdci-runtime-gkegcr",
+    "name": "Find Old Baseline",
+    "namespaces": [
+     "apps"
+    ],
+    "onlyEnabled": true,
+    "refId": "2",
+    "requisiteStageRefIds": [],
+    "selectionStrategy": "NEWEST",
+    "type": "findImage"
+   },
+   {
+    "clusters": [
+     {
+      "account": "cdci-runtime-gkegcr",
+      "application": "helloagain",
+      "cloudProvider": "kubernetes",
+      "containers": [
+       {
+        "args": [],
+        "command": [],
+        "envFrom": [],
+        "envVars": [],
+        "imageDescription": {
+         "cluster": "helloagain-prod",
+         "fromContext": true,
+         "imageId": "helloagain-prod undefined",
+         "repository": "Find Old Baseline",
+         "stageId": "2"
+        },
+        "imagePullPolicy": "IFNOTPRESENT",
+        "limits": {},
+        "name": "find-old-baseline",
+        "ports": [
+         {
+          "containerPort": 80,
+          "name": "http",
+          "protocol": "TCP"
+         }
+        ],
+        "requests": {},
+        "volumeMounts": []
+       }
+      ],
+      "deployment": {
+       "deploymentStrategy": {
+        "rollingUpdate": {
+         "maxSurge": 1,
+         "maxUnavailable": 1
+        },
+        "type": "RollingUpdate"
+       },
+       "enabled": false,
+       "minReadySeconds": 0
+      },
+      "dnsPolicy": "ClusterFirst",
+      "initContainers": [],
+      "interestingHealthProviderNames": [
+       "KubernetesContainer",
+       "KubernetesPod"
+      ],
+      "loadBalancers": [
+       "helloagain-prod"
+      ],
+      "namespace": "apps",
+      "nodeSelector": {},
+      "podAnnotations": {},
+      "provider": "kubernetes",
+      "region": "apps",
+      "replicaSetAnnotations": {},
+      "stack": "cbaseprod",
+      "strategy": "",
+      "targetSize": 1,
+      "terminationGracePeriodSeconds": 30,
+      "useSourceCapacity": false,
+      "volumeSources": []
+     }
+    ],
+    "name": "Deploy Baseline",
+    "refId": "3",
+    "requisiteStageRefIds": [
+     "2"
+    ],
+    "type": "deploy"
+   },
+   {
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-uat",
+    "credentials": "cdci-runtime-gkegcr",
+    "name": "Find UAT Cluster",
+    "namespaces": [
+     "apps"
+    ],
+    "onlyEnabled": true,
+    "refId": "4",
+    "requisiteStageRefIds": [
+     "1"
+    ],
+    "selectionStrategy": "NEWEST",
+    "type": "findImage"
+   },
+   {
+    "clusters": [
+     {
+      "account": "cdci-runtime-gkegcr",
+      "application": "helloagain",
+      "cloudProvider": "kubernetes",
+      "containers": [
+       {
+        "args": [],
+        "command": [],
+        "envFrom": [],
+        "envVars": [],
+        "imageDescription": {
+         "cluster": "helloagain-uat",
+         "fromContext": true,
+         "imageId": "Find UAT Cluster:undefined",
+         "repository": "Find UAT Cluster",
+         "stageId": "4"
+        },
+        "imagePullPolicy": "IFNOTPRESENT",
+        "limits": {},
+        "name": "find-uat-cluster",
+        "ports": [
+         {
+          "containerPort": 80,
+          "name": "http",
+          "protocol": "TCP"
+         }
+        ],
+        "requests": {},
+        "volumeMounts": []
+       }
+      ],
+      "deployment": {
+       "deploymentStrategy": {
+        "rollingUpdate": {
+         "maxSurge": 1,
+         "maxUnavailable": 1
+        },
+        "type": "RollingUpdate"
+       },
+       "enabled": false,
+       "minReadySeconds": 0
+      },
+      "dnsPolicy": "ClusterFirst",
+      "initContainers": [],
+      "interestingHealthProviderNames": [
+       "KubernetesContainer",
+       "KubernetesPod"
+      ],
+      "loadBalancers": [
+       "helloagain-prod"
+      ],
+      "namespace": "apps",
+      "nodeSelector": {},
+      "podAnnotations": {},
+      "provider": "kubernetes",
+      "region": "apps",
+      "replicaSetAnnotations": {},
+      "stack": "prod",
+      "strategy": "",
+      "targetSize": 1,
+      "terminationGracePeriodSeconds": 30,
+      "useSourceCapacity": false,
+      "volumeSources": []
+     }
+    ],
+    "name": "Deploy Standard",
+    "refId": "5",
+    "requisiteStageRefIds": [
+     "4"
+    ],
+    "type": "deploy"
+   },
+   {
+    "analysisType": "realTime",
+    "canaryConfig": {
+     "beginCanaryAnalysisAfterMins": "2",
+     "canaryAnalysisIntervalMins": "15",
+     "canaryConfigId": "851bec07-cc5f-40a9-8892-25632db09740",
+     "combinedCanaryResultStrategy": "LOWEST",
+     "lifetimeDuration": "PT1H0M",
+     "metricsAccountName": "cdci-runtime-canary",
+     "scopes": [
+      {
+       "controlLocation": "${ deployedServerGroups[0].region }",
+       "controlScope": "helloagain-cbaseprod-v000",
+       "experimentLocation": "${ deployedServerGroups[1].region }",
+       "experimentScope": "${ deployedServerGroups[1].serverGroup }",
+       "extendedScopeParams": {
+        "resourceType": "gke_container"
+       },
+       "scopeName": "default"
+      }
+     ],
+     "scoreThresholds": {
+      "marginal": "50",
+      "pass": "75"
+     },
+     "storageAccountName": "cdci-runtime-canary"
+    },
+    "completeOtherBranchesThenFail": false,
+    "continuePipeline": true,
+    "failPipeline": false,
+    "name": "Canary Analysis",
+    "refId": "6",
+    "requisiteStageRefIds": [
+     "5",
+     "3"
+    ],
+    "type": "kayentaCanary"
+   },
+   {
+    "action": "scale_up",
+    "capacity": {},
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-prod",
+    "completeOtherBranchesThenFail": false,
+    "continuePipeline": false,
+    "credentials": "cdci-runtime-gkegcr",
+    "failPipeline": false,
+    "name": "Scale Up New",
+    "namespaces": [
+     "apps"
+    ],
+    "refId": "7",
+    "requisiteStageRefIds": [
+     "6"
+    ],
+    "resizeType": "incr",
+    "scaleNum": 3,
+    "stageEnabled": {
+     "expression": "#stage(\"Canary Analysis\").status.toString().equalsIgnoreCase(\"SUCCEEDED\")",
+     "type": "expression"
+    },
+    "target": "current_asg_dynamic",
+    "type": "resizeServerGroup"
+   },
+   {
+    "name": "Sleep",
+    "refId": "8",
+    "requisiteStageRefIds": [
+     "7"
+    ],
+    "stageEnabled": {
+     "expression": "#stage(\"Canary Analysis\").status.toString().equalsIgnoreCase(\"SUCCEEDED\")",
+     "type": "expression"
+    },
+    "type": "wait",
+    "waitTime": 30
+   },
+   {
+    "allowScaleDownActive": true,
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-prod",
+    "credentials": "cdci-runtime-gkegcr",
+    "name": "Scale Down Old",
+    "namespaces": [
+     "apps"
+    ],
+    "preferLargerOverNewer": "false",
+    "refId": "9",
+    "remainingFullSizeServerGroups": 1,
+    "requisiteStageRefIds": [
+     "8"
+    ],
+    "stageEnabled": {
+     "expression": "#stage(\"Canary Analysis\").status.toString().equalsIgnoreCase(\"SUCCEEDED\")",
+     "type": "expression"
+    },
+    "type": "scaleDownCluster"
+   },
+   {
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-cbaseprod",
+    "completeOtherBranchesThenFail": false,
+    "continuePipeline": true,
+    "credentials": "cdci-runtime-gkegcr",
+    "failPipeline": false,
+    "interestingHealthProviderNames": [
+     "KubernetesService"
+    ],
+    "name": "Destroy Baseline",
+    "namespaces": [
+     "apps"
+    ],
+    "refId": "10",
+    "requisiteStageRefIds": [
+     "6"
+    ],
+    "target": "current_asg_dynamic",
+    "type": "destroyServerGroup"
+   },
+   {
+    "cloudProvider": "kubernetes",
+    "cloudProviderType": "kubernetes",
+    "cluster": "helloagain-prod",
+    "completeOtherBranchesThenFail": true,
+    "continuePipeline": false,
+    "credentials": "cdci-runtime-gkegcr",
+    "failPipeline": false,
+    "interestingHealthProviderNames": [
+     "KubernetesService"
+    ],
+    "name": "Remove Failed Version",
+    "namespaces": [
+     "apps"
+    ],
+    "refId": "11",
+    "requisiteStageRefIds": [
+     "6"
+    ],
+    "stageEnabled": {
+     "expression": "#stage(\"Canary Analysis\").status.toString()!=\"SUCCEEDED\"",
+     "type": "expression"
+    },
+    "target": "current_asg_dynamic",
+    "type": "destroyServerGroup"
+   }
+  ],
+  "triggers": [
+   {
+    "application": "helloagain",
+    "enabled": false,
+    "pipeline": "5eca1007-7cfc-492d-89bb-9e349e2b3862",
+    "status": [
+     "successful"
+    ],
+    "type": "pipeline"
+   }
+  ],
+  "updateTs": "1541004305410"
+ }

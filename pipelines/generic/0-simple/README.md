@@ -12,7 +12,10 @@ Docker Image
 
 ## Prerequisites
 
-*Please make sure to have published the template using [**these instructions**](../../README.md)*
+Make sure to publish the template via the tools instance with:
+```bash
+$ roer pipeline-template publish ./path/to/template.yml
+```
 
 Navigate to Spinnaker in a browser (`localhost:9000`)
 

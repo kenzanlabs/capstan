@@ -44,9 +44,17 @@ resource "google_compute_instance" "halyardtunnel" {
     destination = "/home/${var.ssh_user}"
   }
 
+#make Directory for pipelines
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir /home/${var.ssh_user}/pipelines"
+    ]
+
+  }
+
   provisioner "file" {
-    source      = "../../pipelines"
-    destination = "/home/${var.ssh_user}"
+    source      = "../../pipelines/"
+    destination = "/home/${var.ssh_user}/pipelines"
   }
 
   provisioner "remote-exec" {

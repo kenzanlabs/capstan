@@ -1,0 +1,96 @@
+{
+  "application": "helloagain",
+  "id": "85eb4dc4-fd1f-4f44-949a-c991e01ac864",
+  "index": 2,
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "name": "prod-seed",
+  "stages": [
+    {
+      "clusters": [
+        {
+          "account": "cdci-runtime-gkegcr",
+          "application": "helloagain",
+          "capacity": {
+            "desired": 1,
+            "max": 6,
+            "min": 1
+          },
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envFrom": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "dockerhubimagerepository",
+                "imageId": "index.docker.io/nparkskenzan/hellokenzan:mstr",
+                "registry": "index.docker.io",
+                "repository": "nparkskenzan/hellokenzan",
+                "tag": "mstr"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {},
+              "name": "nparkskenzan-hellokenzan",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "requests": {},
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "2",
+                "maxUnavailable": 1
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": true,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "initContainers": [],
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "helloagain-prod"
+          ],
+          "namespace": "apps",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "apps",
+          "replicaSetAnnotations": {},
+          "scalingPolicy": {
+            "cpuUtilization": {
+              "target": 40
+            }
+          },
+          "stack": "prod",
+          "strategy": "",
+          "targetSize": 4,
+          "terminationGracePeriodSeconds": 30,
+          "useSourceCapacity": false,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "deploy"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1537291165088"
+}

@@ -24,7 +24,7 @@ JENKINS_HELM_RELEASENAME="ci"
 ADDRESS=gcr.io
 SERVICE_ACCOUNT_DEST=~/.gcp/gcp-account.json
 REGISTRY_NAME=gcpimagerepository
-SPINNAKER_VERSION="1.8.6"
+SPINNAKER_VERSION="1.9.5"
 CANARY_METRIC_STORE="stackdriver"
 
 DOCKER_HUB_NAME="dockerhubimagerepository"

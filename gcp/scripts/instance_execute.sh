@@ -19,6 +19,10 @@ get_latest_release() {
 
 sudo apt-get update
 
+echo ">>>> Get git and other good stuffs"
+### get git
+sudo apt-get install git golang-go -y
+
 PROJECT_NAME=$(gcloud info --format='value(config.project)')
 
 echo ">>>> Get Kubectl"
@@ -43,11 +47,6 @@ chmod +x linux-amd64/helm
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
 
-
-echo ">>>> Get git and other good stuffs"
-### get git
-sudo apt-get install git golang-go -y
-
 echo ">>>> Get Roer"
 ROER_VERSION=$( get_latest_release "spinnaker/roer" )
 curl -LO https://github.com/spinnaker/roer/releases/download/$ROER_VERSION/roer-linux-amd64
@@ -57,6 +56,12 @@ sudo mv roer-linux-amd64 /usr/local/bin/roer
 echo ">>>> Add the SPINNAKER_API environ"
 echo -e "\nexport SPINNAKER_API=http://127.0.0.1:8084\n" >> ~/.profile
 
+echo ">>>>> get spin"
+curl -LO https://storage.googleapis.com/spinnaker-artifacts/spin/$(curl -s https://storage.googleapis.com/spinnaker-artifacts/spin/latest)/linux/amd64/spin
+chmod +x spin
+sudo mv spin /usr/local/bin/spin
+mkdir ~/.spin
+touch ~/.spin/config
 #### We need expect also
 #sudo apt-get install expect -y
 

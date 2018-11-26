@@ -1,0 +1,108 @@
+{
+ "application": "helloagain",
+ "id": "ac0e98c5-5f04-42c0-88c2-c85b402450a4",
+ "index": 3,
+ "keepWaitingPipelines": false,
+ "lastModifiedBy": "anonymous",
+ "limitConcurrent": true,
+ "name": "dev-deploy",
+ "stages": [
+  {
+   "clusters": [
+    {
+     "account": "cdci-runtime-gkegcr",
+     "application": "helloagain",
+     "capacity": {
+      "desired": 1,
+      "max": 4,
+      "min": 1
+     },
+     "cloudProvider": "kubernetes",
+     "containers": [
+      {
+       "args": [],
+       "command": [],
+       "envFrom": [],
+       "envVars": [],
+       "imageDescription": {
+        "account": "gcpimagerepository",
+        "imageId": "gcr.io/XXXXXXXXXXXX/hello-karyon-rxnetty:latest",
+        "registry": "gcr.io",
+        "repository": "XXXXXXXXXXXX/hello-karyon-rxnetty",
+        "tag": "latest"
+       },
+       "imagePullPolicy": "IFNOTPRESENT",
+       "limits": {},
+       "name": "XXXXXXXXXXXX-hello-karyon-rxnetty",
+       "ports": [
+        {
+         "containerPort": 80,
+         "name": "http",
+         "protocol": "TCP"
+        }
+       ],
+       "requests": {},
+       "volumeMounts": []
+      }
+     ],
+     "deployment": {
+      "deploymentStrategy": {
+       "rollingUpdate": {
+        "maxSurge": "4",
+        "maxUnavailable": ""
+       },
+       "type": "RollingUpdate"
+      },
+      "enabled": true,
+      "minReadySeconds": 0,
+      "revisionHistoryLimit": 2
+     },
+     "dnsPolicy": "ClusterFirst",
+     "initContainers": [],
+     "interestingHealthProviderNames": [
+      "KubernetesContainer",
+      "KubernetesPod"
+     ],
+     "loadBalancers": [
+      "helloagain-dev"
+     ],
+     "namespace": "apps",
+     "nodeSelector": {},
+     "podAnnotations": {},
+     "provider": "kubernetes",
+     "region": "apps",
+     "replicaSetAnnotations": {},
+     "scalingPolicy": {
+      "cpuUtilization": {
+       "target": 40
+      }
+     },
+     "stack": "dev",
+     "strategy": "",
+     "targetSize": 2,
+     "terminationGracePeriodSeconds": 30,
+     "useSourceCapacity": false,
+     "volumeSources": []
+    }
+   ],
+   "name": "Deploy",
+   "refId": "1",
+   "requisiteStageRefIds": [],
+   "type": "deploy"
+  }
+ ],
+ "triggers": [
+  {
+   "attributeConstraints": {},
+   "enabled": true,
+   "payloadConstraints": {
+    "action": "INSERT",
+    "tag": "gcr.io/XXXXXXXXXXXX/hello-karyon-rxnetty:latest"
+   },
+   "pubsubSystem": "google",
+   "subscriptionName": "gcr",
+   "type": "pubsub"
+  }
+ ],
+ "updateTs": "1540928648444"
+}
