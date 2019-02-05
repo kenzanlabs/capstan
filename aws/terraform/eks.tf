@@ -120,13 +120,13 @@ clusters:
 - cluster:
     server: ${aws_eks_cluster.eks.endpoint}
     certificate-authority-data: ${aws_eks_cluster.eks.certificate_authority.0.data}
-  name: kubernetes
+  name: cd-kubernetes
 contexts:
 - context:
-    cluster: kubernetes
+    cluster: cd-kubernetes
     user: aws
-  name: aws
-current-context: aws
+  name: aws-cd-management
+current-context: aws-cd-management
 kind: Config
 preferences: {}
 users:
