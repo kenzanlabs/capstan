@@ -2,7 +2,6 @@
 #
 #
 
-
 #### General
 
 variable "gen_solution_name" {
@@ -12,6 +11,33 @@ variable "gen_solution_name" {
 
 variable "gen_project_name" {
   default = "capstan"
+  type    = "string"
+}
+
+#### Spinnaker Config
+
+variable "spinnaker_version" {
+  default = "1.12.1"
+  type    = "string"
+}
+
+variable "spinnaker_omitnamespace_list" {
+  default = "istio-system,kube-system,spinnaker"
+  type    = "string"
+}
+
+variable "dockerhub_address" {
+  default = "index.docker.io"
+  type    = "string"
+}
+
+variable "dockerhub_container_list" {
+  default = "netflixoss/eureka netflixoss/zuul owasp/zap2docker-stable webgoat/webgoat-8.0 nparkskenzan/hellokenzan"
+  type    = "string"
+}
+
+variable "spinnaker_dockerhubname" {
+  default = "dockerhubimagerepository"
   type    = "string"
 }
 
