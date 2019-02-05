@@ -8,5 +8,3 @@
 
 hal deploy apply
 
-
-hal spin install --auto-run
