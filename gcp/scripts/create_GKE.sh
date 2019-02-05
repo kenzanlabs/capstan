@@ -20,8 +20,8 @@ echo "  CLUSTER_ZONE: $CLUSTER_ZONE"
 echo ">>>>> Enable gcloud API needs"
 
 #make kubectl happy for later usage
-gcloud config set container/use_client_certificate true
-gcloud container clusters get-credentials --zone $CLUSTER_ZONE $CLUSTER_NAME
+#gcloud config set container/use_client_certificate true
+gcloud container clusters get-credentials $CLUSTER_NAME --zone $CLUSTER_ZONE --project $PROJECT_NAME
 
 kubectl cluster-info
 echo ">>>>> Helm Init"

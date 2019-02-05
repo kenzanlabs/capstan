@@ -12,11 +12,9 @@ spec:
     port: 8084
     protocol: TCP
     targetPort: 8084
-  - name: monitoring
-    port: 8008
-    protocol: TCP
-    targetPort: 8008
+  
   selector:
-    load-balancer-spin-gate: "true"
+    app: spin
+    cluster: spin-gate
   type: NodePort
 

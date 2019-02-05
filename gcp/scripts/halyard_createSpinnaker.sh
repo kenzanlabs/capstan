@@ -64,15 +64,14 @@ hal config storage edit --type gcs
 
 hal config features edit --pipeline-templates true
 
-#hal config features edit --artifacts true
 
 
 echo "==== -> Let's Get a Docker Registry using gcr.io added"
 
 ###  make HAL not puke over empty GCR resistry https://github.com/spinnaker/halyard/issues/608
-sudo docker pull gcr.io/google_containers/nginx
-sudo docker tag gcr.io/google_containers/nginx $ADDRESS/$PROJECT_NAME/nginx
-sudo gcloud docker -- push $ADDRESS/$PROJECT_NAME/nginx
+#sudo docker pull gcr.io/google_containers/nginx
+#sudo docker tag gcr.io/google_containers/nginx $ADDRESS/$PROJECT_NAME/nginx
+#sudo gcloud docker -- push $ADDRESS/$PROJECT_NAME/nginx
 #### end 
 
 hal config provider docker-registry account add $REGISTRY_NAME  --address $ADDRESS --username $USERNAME --password-file $PASSWORD_FILE --no-validate

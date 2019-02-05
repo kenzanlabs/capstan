@@ -18,12 +18,11 @@ get_latest_release() {
 }
 
 sudo apt-get update
-
-echo ">>>> Get git and other good stuffs"
-### get git
-sudo apt-get install git golang-go -y
-
+#echo $PATH
+#PATH="$PATH:/snap/bin"
 PROJECT_NAME=$(gcloud info --format='value(config.project)')
+echo $PATH
+
 
 echo ">>>> Get Kubectl"
 ### We need to get kubectl instead of having gloud install it for us
@@ -34,10 +33,11 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 
 echo ">>>> Get Halyard"
 #### get halyard
-curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/stable/InstallHalyard.sh
+curl -O https://raw.githubusercontent.com/spinnaker/halyard/master/install/debian/InstallHalyard.sh
 sudo bash InstallHalyard.sh -y
 
 hal -v
+hal --ready
 
 echo ">>>> Get Helm"
 HELM_VERSION=$( get_latest_release "helm/helm" )
@@ -46,6 +46,11 @@ tar -xzf helm-$HELM_VERSION-linux-amd64.tar.gz # Faster to not print the filenam
 chmod +x linux-amd64/helm
 sudo mv linux-amd64/helm /usr/local/bin/helm
 
+
+
+echo ">>>> Get git and other good stuffs"
+### get git
+sudo apt-get install git golang-go -y
 
 echo ">>>> Get Roer"
 ROER_VERSION=$( get_latest_release "spinnaker/roer" )
@@ -62,12 +67,6 @@ chmod +x spin
 sudo mv spin /usr/local/bin/spin
 mkdir ~/.spin
 touch ~/.spin/config
-#### We need expect also
-#sudo apt-get install expect -y
-
-echo ">>>> Get Docker"
-#### this is not a version you would want to use but it will get the job done
-sudo apt-get install -y docker.io
 
 echo $PWD
 echo "=========================================="
