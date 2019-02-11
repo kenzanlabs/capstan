@@ -3,11 +3,11 @@
 # Provider using IAM user that can role assume
 
 provider "aws" {
-    ## set the region in a different manner in the future...but there are only a couple EKS versions
+    ## Does your region have 3 AZs?
     region = "us-west-2"
     # keys of user that can role assume, these should be in the environment like:
-    #export AWS_ACCESS_KEY_ID="anaccesskey"
-    #export AWS_SECRET_ACCESS_KEY="asecretkey"
+    #export TF_VAR_ws_access_key="anaccesskey"
+    #export TF_VAR_aws_secret_key="asecretkey"
     access_key = "${var.aws_access_key}"
     secret_key = "${var.aws_secret_key}"
 

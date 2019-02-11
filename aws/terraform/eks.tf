@@ -37,11 +37,7 @@ data "aws_ami" "eks-worker" {
   owners      = ["602401143452"] # Amazon
 }
 
-# EKS currently documents this required userdata for EKS worker nodes to
-# properly configure Kubernetes applications on the EC2 instance.
-# We utilize a Terraform local here to simplify Base64 encoding this
-# information into the AutoScaling Launch Configuration.
-# More information: https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-06-05/amazon-eks-nodegroup.yaml
+#
 locals {
   demo-node-userdata = <<USERDATA
 #!/bin/bash
@@ -67,7 +63,7 @@ resource "aws_launch_configuration" "alc" {
 }
 
 resource "aws_autoscaling_group" "worker-asg" {
-  desired_capacity     = 2
+  desired_capacity     = 3
   launch_configuration = "${aws_launch_configuration.alc.id}"
   max_size             = 10
   min_size             = 1

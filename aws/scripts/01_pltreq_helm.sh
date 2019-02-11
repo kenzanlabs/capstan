@@ -21,6 +21,10 @@ helm version
 
 ## create apps namespace
 kubectl create namespace apps
+kubectl create namespace meshapps
+kubectl create namespace cdtools
+
+
 
 echo "=========================================="
 echo " - END HELM -"

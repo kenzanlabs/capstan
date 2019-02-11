@@ -35,22 +35,22 @@ resource "aws_route_table" "rt" {
 
 
 resource "aws_subnet" "sbnet" {
-  count = 2
+  count = 3
 
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  cidr_block        = "10.0.${count.index}.0/24"
+  cidr_block        = "10.0.${count.index}.0/18"
   vpc_id            = "${aws_vpc.containernet.id}"
 
   tags = "${
     map(
-     "Name", "${var.gen_solution_name}-sb",
+     "Name", "${var.gen_solution_name}-sb-${count.index}",
      "kubernetes.io/cluster/${var.gen_solution_name}", "shared",
     )
   }"
 }
 
 resource "aws_route_table_association" "rta" {
-  count = 2
+  count = 3
 
   subnet_id      = "${aws_subnet.sbnet.*.id[count.index]}"
   route_table_id = "${aws_route_table.rt.id}"
