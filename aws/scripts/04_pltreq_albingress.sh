@@ -11,7 +11,9 @@ ALB_VERISON=v1.1.0
 
 echo "******************************************"
 echo "=========================================="
-echo " - BEGIN AWS ELB -"
+echo " - BEGIN AWS ALB -"
+echo "ClusterName = $CLUSTERNAME"
+echo "ARN = $KUBE2IAMROLEARN"
 echo "=========================================="
 
 
