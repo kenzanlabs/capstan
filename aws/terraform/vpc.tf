@@ -4,7 +4,7 @@
 
 
 resource "aws_vpc" "containernet" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = "${var.net_cidrblock}"
 
   tags = "${
     map(
@@ -35,10 +35,10 @@ resource "aws_route_table" "rt" {
 
 
 resource "aws_subnet" "sbnet" {
-  count = 3
+  count = "${var.net_numsaz}"
 
   availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
-  cidr_block        = "10.0.${count.index}.0/18"
+  cidr_block        = "${element(var.net_subnetcidrblock, count.index)}"
   vpc_id            = "${aws_vpc.containernet.id}"
 
   tags = "${
@@ -50,7 +50,7 @@ resource "aws_subnet" "sbnet" {
 }
 
 resource "aws_route_table_association" "rta" {
-  count = 3
+  count = "${var.net_numsaz}"
 
   subnet_id      = "${aws_subnet.sbnet.*.id[count.index]}"
   route_table_id = "${aws_route_table.rt.id}"

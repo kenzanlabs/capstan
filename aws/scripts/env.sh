@@ -2,7 +2,7 @@
 
 ############################################  Spinnaker
 
-SPINNAKER_VERSION="1.9.5"
+SPINNAKER_VERSION="1.12.3"
 
 
 DOCKER_HUB_NAME="dockerhubimagerepository"

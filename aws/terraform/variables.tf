@@ -58,6 +58,20 @@ variable "net_name" {
   type    = "string"
 }
 
+variable "net_cidrblock" {
+  default = "10.1.0.0/16"
+}
+
+variable "net_numsaz" {
+  default = 3
+}
+
+variable "net_subnetcidrblock" {
+  default = ["10.1.0.0/18", "10.1.64.0/18", "10.1.128.0/18","10.1.192.0/18"]
+  type    = "list"
+}
+
+
 
 #### EKS
 

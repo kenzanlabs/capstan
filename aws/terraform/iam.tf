@@ -282,7 +282,7 @@ resource "aws_iam_policy" "spin_policy" {
       ],
       "Resource": [
         "arn:aws:s3:::${aws_s3_bucket.spin_bucket.id}/*",
-        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.id}"
+        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.id}",
         "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.id}/*",
         "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.id}"
       ]
