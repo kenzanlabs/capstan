@@ -218,7 +218,7 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "alb-policy-attach" {
-  role       = "${aws_iam_role.alb-role.name}"
+  role       = "${aws_iam_role.alb-role.id}"
   policy_arn = "${aws_iam_policy.alb_policy.arn}"
 }
 
@@ -281,10 +281,10 @@ resource "aws_iam_policy" "spin_policy" {
         "s3:List*"
       ],
       "Resource": [
-        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.name}/*",
-        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.name}"
-        "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.name}/*",
-        "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.name}"
+        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.id}/*",
+        "arn:aws:s3:::${aws_s3_bucket.spin_bucket.id}"
+        "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.id}/*",
+        "arn:aws:s3:::${aws_s3_bucket.spin_artifact_bucket.id}"
       ]
     },
     {
@@ -301,6 +301,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "alb-policy-attach" {
-  role       = "${aws_iam_role.spin-role.name}"
+  role       = "${aws_iam_role.spin-role.id}"
   policy_arn = "${aws_iam_policy.spin_policy.arn}"
 }
