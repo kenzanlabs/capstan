@@ -71,6 +71,7 @@ resource "aws_instance" "bastion" {
       "/home/${var.ec2_ssh_user}/instance_setup.sh",
       "/home/${var.ec2_ssh_user}/01_pltreq_helm.sh",
       "/home/${var.ec2_ssh_user}/02_pltreq_efk.sh ${var.efk_loggingnamespace} ",
+      #"/home/${var.ec2_ssh_user}/02_pltopt_istio.sh",
       "/home/${var.ec2_ssh_user}/01_spin_k8.sh ${aws_eks_cluster.eks.name}",
       "/home/${var.ec2_ssh_user}/02_spin_storage.sh ${aws_s3_bucket.spin_bucket.id} role/${aws_iam_role.spin-role.id}",
       "/home/${var.ec2_ssh_user}/03_spin_artifact.sh ${aws_eks_cluster.eks.name}",
