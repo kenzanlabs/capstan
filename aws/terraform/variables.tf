@@ -14,6 +14,16 @@ variable "gen_project_name" {
   type    = "string"
 }
 
+#username for EFK
+variable "gen_admin_user" {
+  default = "capstan"
+  type    = "string"
+}
+#password for EFK
+variable "gen_admin_password" {
+  type    = "string"
+}
+
 #### Spinnaker Config
 
 variable "spinnaker_version" {

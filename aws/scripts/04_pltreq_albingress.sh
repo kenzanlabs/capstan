@@ -31,7 +31,7 @@ kubectl apply -f albingress.yaml
 
 
 echo "=========================================="
-echo " - END AWS ELB -"
+echo " - END AWS ALB -"
 echo "=========================================="
 echo "******************************************"
 #pause log dump
