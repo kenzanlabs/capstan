@@ -5,7 +5,8 @@
 # Depends on 
 ######################
 
-
+CLUSTERNAME=$1
+KUBE2IAMROLEARN=$2
 ALB_VERISON=v1.1.0
 
 echo "******************************************"
@@ -14,14 +15,17 @@ echo " - BEGIN AWS ELB -"
 echo "=========================================="
 
 
-wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/$ALB_VERISON/docs/examples/alb-ingress-controller.yaml
+#wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/$ALB_VERISON/docs/examples/alb-ingress-controller.yaml
 wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/$ALB_VERISON/docs/examples/rbac-role.yaml
 
 ## edit the YAML
-
+cp albingress_$ALB_VERISON.yml albingress.yml
+sed -i "s/SEDCLUSTERNAMEHERE/$CLUSTERNAME/g" albingress.yml
+sed -i "s/SEDIAMROLEARN/$KUBE2IAMROLEARN/g" albingress.yml
 ## apply the yaml
 kubectl apply -f rbac-role.yaml
-kubectl apply -f alb-ingress-controller.yaml
+kubectl apply -f albingress.yaml
+
 
 
 echo "=========================================="
