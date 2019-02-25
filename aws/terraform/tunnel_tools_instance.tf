@@ -69,10 +69,14 @@ resource "aws_instance" "bastion" {
     inline = [
       "chmod +x /home/${var.ec2_ssh_user}/*.sh",
       "/home/${var.ec2_ssh_user}/instance_setup.sh",
-      "/home/${var.ec2_ssh_user}/spin_storage.sh ${aws_s3_bucket.spin_bucket.id} role/${var.aws_role_name}",
-      "/home/${var.ec2_ssh_user}/spin_artifact.sh ${aws_eks_cluster.eks.name}",
-      "/home/${var.ec2_ssh_user}/spin_k8.sh ${aws_eks_cluster.eks.name}",
-      "/home/${var.ec2_ssh_user}/spin_deploy.sh",
+      "/home/${var.ec2_ssh_user}/01_pltreq_helm.sh",
+      "/home/${var.ec2_ssh_user}/02_pltreq_efk.sh ${var.efk_loggingnamespace} ",
+      "/home/${var.ec2_ssh_user}/01_spin_k8.sh ${aws_eks_cluster.eks.name}",
+      "/home/${var.ec2_ssh_user}/02_spin_storage.sh ${aws_s3_bucket.spin_bucket.id} role/${aws_iam_role.spin-role.id}",
+      "/home/${var.ec2_ssh_user}/03_spin_artifact.sh ${aws_eks_cluster.eks.name}",
+      "/home/${var.ec2_ssh_user}/10_spin_deploy.sh",
+      "/home/${var.ec2_ssh_user}/03_pltreq_kube2iam.sh",
+      "/home/${var.ec2_ssh_user}/04_pltreq_albingress.sh ${aws_eks_cluster.eks.name} ${aws_iam_role.alb-role.arn}",
     ]
   }
 
