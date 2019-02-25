@@ -61,6 +61,13 @@ variable "capstan_user_role_name" {
   type    = "string"
 }
 
+### EFK
+
+variable "efk_loggingnamespace" {
+  default = "logging"
+  type    = "string"
+}
+
 #### EC2
 
 variable "ec2_key" {
@@ -106,7 +113,3 @@ variable "aws_account_id" {
   type    = "string"
 }
 
-variable "aws_role_name" {
-  default = ""
-  type    = "string"
-}
