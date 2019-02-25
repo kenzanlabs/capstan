@@ -300,7 +300,7 @@ resource "aws_iam_policy" "spin_policy" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "alb-policy-attach" {
+resource "aws_iam_role_policy_attachment" "spin-policy-attach" {
   role       = "${aws_iam_role.spin-role.id}"
   policy_arn = "${aws_iam_policy.spin_policy.arn}"
 }
