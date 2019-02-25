@@ -24,6 +24,10 @@ kubectl create namespace apps
 kubectl create namespace meshapps
 kubectl create namespace cdtools
 
+#side car injection for meshapps
+kubectl label namespace meshapps istio-injection=enabled
+kubectl label namespace default istio-injection=enabled
+
 
 
 echo "=========================================="
