@@ -66,6 +66,11 @@ resource "aws_iam_role_policy_attachment" "worker-node-AmazonEKS_CNI_Policy" {
   role       = "${aws_iam_role.worker-role.name}"
 }
 
+resource "aws_iam_role_policy_attachment" "worker-node-SSMAgentEnable" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+  role       = "${aws_iam_role.worker-role.name}"
+}
+
 resource "aws_iam_role_policy_attachment" "worker-node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = "${aws_iam_role.worker-role.name}"
@@ -303,4 +308,84 @@ EOF
 resource "aws_iam_role_policy_attachment" "spin-policy-attach" {
   role       = "${aws_iam_role.spin-role.id}"
   policy_arn = "${aws_iam_policy.spin_policy.arn}"
+}
+
+############# Bastion
+
+resource "aws_iam_role" "bastion-role" {
+  name = "${var.gen_solution_name}-capstan-bastion"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "bastion-node-SSMAgent" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+  role       = "${aws_iam_role.bastion-role.name}"
+}
+
+resource "aws_iam_role_policy_attachment" "bastion-ReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  role       = "${aws_iam_role.bastion-role.name}"
+}
+
+resource "aws_iam_policy" "bastion_policy" {
+  name        = "${var.gen_solution_name}-bastionassume-policy"
+  description = "Allows user on bastion to assume capstan user role"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        "Resource": "${aws_iam_role.capstain-user-role.arn}"
+    }
+}
+EOF
+}
+
+
+resource "aws_iam_role_policy_attachment" "bastion-policy-attach" {
+  role       = "${aws_iam_role.bastion-role.id}"
+  policy_arn = "${aws_iam_policy.bastion_policy.arn}"
+}
+
+####### capstain user role
+
+resource "aws_iam_role" "capstain-user-role" {
+  name = "${var.gen_solution_name}-capstan-user"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com",
+        "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "capstanuser-ReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+  role       = "${aws_iam_role.capstain-user-role.arn}"
 }

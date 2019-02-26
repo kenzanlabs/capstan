@@ -100,11 +100,11 @@ data:
       groups:
         - system:bootstrappers
         - system:nodes
-    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.capstan_user_role_name}
+    - rolearn: ${aws_iam_role.capstain-user-role.arn}
       username: capstan-user
       groups:
         - system:masters
-    - rolearn: arn:aws:iam::${var.aws_account_id}:role/${var.capstan_bastion_role_name}
+    - rolearn: ${aws_iam_role.bastion-role.arn}
       username: capstan-bastion
       groups:
         - system:masters

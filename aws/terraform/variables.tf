@@ -80,10 +80,6 @@ variable "eks_instance_size" {
   type    = "string"
 }
 
-variable "capstan_user_role_name" {
-  default = "capstan-user"
-  type    = "string"
-}
 
 ### EFK
 
@@ -116,10 +112,6 @@ variable "ec2_ssh_user" {
 }
 
 
-variable "capstan_bastion_role_name" {
-  default = "capstan-bastion"
-  type    = "string"
-}
 
 #### PROVIDER VALUES OVER RIDE with TF_VAR as exports
 variable "aws_access_key" {
@@ -132,8 +124,5 @@ variable "aws_secret_key" {
   type    = "string"
 }
 
-variable "aws_account_id" {
-  default = ""
-  type    = "string"
-}
+
 

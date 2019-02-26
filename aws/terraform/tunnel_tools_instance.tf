@@ -37,7 +37,7 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids =["${aws_security_group.bastion.id}"]
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.sbnet.*.id[0]}"
-  iam_instance_profile ="${var.capstan_bastion_role_name}"
+  iam_instance_profile ="${aws_iam_role.bastion-role.name}"
 
  connection {
     user        = "${var.ec2_ssh_user}"
