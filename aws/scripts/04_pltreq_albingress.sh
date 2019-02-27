@@ -26,7 +26,7 @@ sed -i "s/SEDCLUSTERNAMEHERE/$CLUSTERNAME/g" albingress.yml
 sed -i "s/SEDIAMROLEARN/$KUBE2IAMROLEARN/g" albingress.yml
 ## apply the yaml
 kubectl apply -f rbac-role.yaml
-kubectl apply -f albingress.yaml
+kubectl apply -f albingress.yml
 
 
 

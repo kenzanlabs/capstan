@@ -17,7 +17,7 @@ get_latest_release() {
 
 echo ">>>> Let's do an update and install some stuff"
 sudo apt-get update
-sudo apt-get install git golang-go -y
+sudo apt-get install git golang-go -y -qq
 
 
 

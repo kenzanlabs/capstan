@@ -6,10 +6,20 @@
 source $PWD/env.sh
 
 CLUSTER_NAME=$1
+SPINNAKER_VERSION=$2
+DOCKER_ADDR=$3
+DOCKER_HUB_NAME=$4
+OMIT_NAMESPACES=$5
+
 
 ####
 echo "========= Configure K8 for Spinnaker =========="
-echo "Cluster Name = $CLUSTER_NAME"
+echo "Cluster Name      = $CLUSTER_NAME"
+echo "Spinnaker Version = $SPINNAKER_VERSION"
+echo "DockerHub         = $DOCKER_ADDR"
+echo "DOCKER_HUB_NAME   = $DOCKER_HUB_NAME"
+echo "OMIT_NAMESPACES   = $OMIT_NAMESPACES"
+
 ####
 
 hal config version edit --version $SPINNAKER_VERSION
@@ -37,7 +47,7 @@ TOKEN=$(kubectl get secret --context $CONTEXT  $(kubectl get serviceaccount spin
 kubectl config set-credentials ${CONTEXT}-token-user --token $TOKEN
 kubectl config set-context $CONTEXT --user ${CONTEXT}-token-user
 
-hal config provider kubernetes account add $CLUSTER_NAME  --context $CONTEXT --docker-registries $IMAGE_REPOS --omit-namespaces $OMIT_NAMESPACES
+hal config provider kubernetes account add $CLUSTER_NAME  --context $CONTEXT --docker-registries $IMAGE_REPOS --omit-namespaces $OMIT_NAMESPACES --provider-version v2
 
 hal config deploy edit --type distributed --account-name $CLUSTER_NAME
 
