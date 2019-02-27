@@ -24,6 +24,15 @@ resource "null_resource" "kubeconfigmap" {
   }
 
       provisioner "local-exec" {
+    command = "chmod +x kubectl"   
+  }
+
+#sleep to give extra time for EKS to actually be awake (angry face)
+    provisioner "local-exec" {
+    command = "sleep 60"   
+  }
+
+      provisioner "local-exec" {
     command = "./kubectl --kubeconfig=${local_file.kubeconf.filename} apply -f ${local_file.configmap.filename}"   
   }
 }
@@ -37,7 +46,12 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids =["${aws_security_group.bastion.id}"]
   associate_public_ip_address = true
   subnet_id = "${aws_subnet.sbnet.*.id[0]}"
-  iam_instance_profile ="${aws_iam_role.bastion-role.name}"
+  iam_instance_profile ="${aws_iam_instance_profile.bastion-instance-profile.name}"
+
+    depends_on = [
+    "aws_autoscaling_group.worker-asg",
+    "null_resource.kubeconfigmap"
+  ]
 
  connection {
     user        = "${var.ec2_ssh_user}"
@@ -72,7 +86,7 @@ resource "aws_instance" "bastion" {
       "/home/${var.ec2_ssh_user}/01_pltreq_helm.sh",
       "/home/${var.ec2_ssh_user}/02_pltreq_efk.sh ${var.efk_loggingnamespace} ",
       #"/home/${var.ec2_ssh_user}/02_pltopt_istio.sh",
-      "/home/${var.ec2_ssh_user}/01_spin_k8.sh ${aws_eks_cluster.eks.name}",
+      "/home/${var.ec2_ssh_user}/01_spin_k8.sh ${aws_eks_cluster.eks.name} ${var.spinnaker_version} ${var.dockerhub_address} ${var.spinnaker_dockerhubname} ${var.spinnaker_omitnamespace_list},${var.efk_loggingnamespace}",
       "/home/${var.ec2_ssh_user}/02_spin_storage.sh ${aws_s3_bucket.spin_bucket.id} role/${aws_iam_role.spin-role.id}",
       "/home/${var.ec2_ssh_user}/03_spin_artifact.sh ${aws_eks_cluster.eks.name}",
       "/home/${var.ec2_ssh_user}/10_spin_deploy.sh",

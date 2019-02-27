@@ -14,13 +14,14 @@ variable "gen_project_name" {
   type    = "string"
 }
 
-#username for EFK
+#username for graphana/kaili 
 variable "gen_admin_user" {
   default = "capstan"
   type    = "string"
 }
-#password for EFK
+#password for graphana/kaili 
 variable "gen_admin_password" {
+  default = "capstan"
   type    = "string"
 }
 

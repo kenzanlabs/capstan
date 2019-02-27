@@ -76,6 +76,30 @@ resource "aws_iam_role_policy_attachment" "worker-node-AmazonEC2ContainerRegistr
   role       = "${aws_iam_role.worker-role.name}"
 }
 
+
+resource "aws_iam_policy" "workerassume_policy" {
+  name        = "${var.gen_solution_name}-workerassume-policy"
+  description = "IAM policy allow worker nodes to assume others"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": {
+        "Effect": "Allow",
+        "Action": "sts:AssumeRole",
+        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
+    }
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "worker-assumerole" {
+  policy_arn = "${aws_iam_policy.workerassume_policy.arn}"
+  role       = "${aws_iam_role.worker-role.name}"
+}
+
+
+
 ############################ ALB Role for Workers and ALB-Ingress to Function
 
 
@@ -363,6 +387,12 @@ resource "aws_iam_role_policy_attachment" "bastion-policy-attach" {
   policy_arn = "${aws_iam_policy.bastion_policy.arn}"
 }
 
+
+resource "aws_iam_instance_profile" "bastion-instance-profile" {
+  name = "${aws_iam_role.bastion-role.name}"
+  role = "${aws_iam_role.bastion-role.name}"
+}
+
 ####### capstain user role
 
 resource "aws_iam_role" "capstain-user-role" {
@@ -385,7 +415,7 @@ resource "aws_iam_role" "capstain-user-role" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "capstanuser-ReadOnly" {
+resource "aws_iam_role_policy_attachment" "capstanuser-readonly" {
   policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
-  role       = "${aws_iam_role.capstain-user-role.arn}"
+  role       = "${aws_iam_role.capstain-user-role.name}"
 }
