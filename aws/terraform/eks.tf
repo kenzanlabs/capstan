@@ -23,7 +23,7 @@ resource "aws_eks_cluster" "eks" {
 #### Cluster Worker
 
 resource "aws_iam_instance_profile" "instprofile" {
-  name = "${var.gen_solution_name}"
+  name = "${aws_iam_role.worker-role.name}"
   role = "${aws_iam_role.worker-role.name}"
 }
 
