@@ -52,3 +52,11 @@ hal config provider kubernetes account add $CLUSTER_NAME  --context $CONTEXT --d
 hal config deploy edit --type distributed --account-name $CLUSTER_NAME
 
 hal config provider kubernetes enable
+
+
+echo "=========================================="
+echo " - END Spin k8 configure -"
+echo "=========================================="
+echo "******************************************"
+#pause log dump
+sleep 10
