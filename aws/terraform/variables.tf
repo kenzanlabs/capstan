@@ -28,7 +28,7 @@ variable "gen_admin_password" {
 #### Spinnaker Config
 
 variable "spinnaker_version" {
-  default = "1.12.1"
+  default = "1.12.3"
   type    = "string"
 }
 
