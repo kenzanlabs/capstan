@@ -264,15 +264,9 @@ resource "aws_iam_role" "spin-role" {
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    },
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "${aws_iam_role.worker-role.arn}"
+        "Service": "ec2.amazonaws.com",
+         "AWS": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
+         "AWS": "${aws_iam_role.worker-role.arn}"
       },
       "Action": "sts:AssumeRole"
     }
@@ -367,7 +361,7 @@ resource "aws_iam_role_policy_attachment" "bastion-ReadOnly" {
 
 resource "aws_iam_policy" "bastion_policy" {
   name        = "${var.gen_solution_name}-bastionassume-policy"
-  description = "Allows user on bastion to assume capstan user role"
+  description = "Allows user on bastion to assume roles"
 
   policy = <<EOF
 {
@@ -375,7 +369,7 @@ resource "aws_iam_policy" "bastion_policy" {
     "Statement": {
         "Effect": "Allow",
         "Action": "sts:AssumeRole",
-        "Resource": "${aws_iam_role.capstain-user-role.arn}"
+        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role*"
     }
 }
 EOF
