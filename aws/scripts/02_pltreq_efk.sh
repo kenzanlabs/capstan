@@ -29,7 +29,7 @@ helm install --name elasticsearch --namespace $LGNAMESPACE stable/elasticsearch 
 #change to fluentbit
 # So if we where REALLY doing AWS native leverage we would have this send to Cloud Watch Logs 
 #helm install --name fluentd --namespace $LGNAMESPACE stable/fluentd --set output.host=elasticsearch-client.$LGNAMESPACE.svc.cluster.local,output.port=9200
-helm install --name fluentx --namespace $LGNAMESPACE stable/fluentbit --set backend.type=es
+helm install --name fluentx --namespace $LGNAMESPACE stable/fluent-bit --set backend.type=es
 ##kibana
 #remember if you move elastic search you will need to move these references in the env
 helm install --name kibana --namespace $LGNAMESPACE stable/kibana --set env.ELASTICSEARCH_URL=http://elasticsearch-client.$LGNAMESPACE.svc.cluster.local:9200
