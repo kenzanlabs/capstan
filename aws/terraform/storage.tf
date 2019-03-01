@@ -31,3 +31,9 @@ resource "aws_s3_bucket" "spin_artifact_bucket" {
   }
 }
 
+## we are going to put a helm repo in s3
+resource "aws_s3_bucket_object" "object" {
+   bucket = "${aws_s3_bucket.spin_artifact_bucket.bucket}"
+   key    = "charts/index.yaml"
+   source = "index.yaml"
+}
