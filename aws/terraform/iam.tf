@@ -369,7 +369,7 @@ resource "aws_iam_policy" "bastion_policy" {
     "Statement": {
         "Effect": "Allow",
         "Action": "sts:AssumeRole",
-        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role*"
+        "Resource": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
     }
 }
 EOF
