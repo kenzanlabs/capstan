@@ -23,9 +23,6 @@ resource "null_resource" "kubeconfigmap" {
     command = "chmod +x kubectl"   
   }
 
-      provisioner "local-exec" {
-    command = "chmod +x kubectl"   
-  }
 
 #sleep to give extra time for EKS to actually be awake (angry face)
     provisioner "local-exec" {
@@ -90,8 +87,8 @@ resource "aws_instance" "bastion" {
       "/home/${var.ec2_ssh_user}/02_spin_storage.sh ${aws_s3_bucket.spin_bucket.id} role/${aws_iam_role.spin-role.id}",
       "/home/${var.ec2_ssh_user}/03_spin_artifact.sh ${aws_eks_cluster.eks.name}",
       "/home/${var.ec2_ssh_user}/10_spin_deploy.sh",
-      "/home/${var.ec2_ssh_user}/03_pltreq_kube2iam.sh",
-      "/home/${var.ec2_ssh_user}/04_pltreq_albingress.sh ${aws_eks_cluster.eks.name} ${aws_iam_role.alb-role.arn}",
+    #  "/home/${var.ec2_ssh_user}/03_pltreq_kube2iam.sh",
+    #  "/home/${var.ec2_ssh_user}/04_pltreq_albingress.sh ${aws_eks_cluster.eks.name} ${aws_iam_role.alb-role.arn}",
     ]
   }
 
