@@ -28,17 +28,17 @@ Oh, we have a solution for you!
 1. Do you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed?
 1. Tools for your target Iaas?
    1. [GCLOUD SDK](https://cloud.google.com/sdk/downloads)
-   1. AWS CLI
+   1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
    1. AZURE SDK
 
 ## Supported Target Platforms
 ### Google Cloud Platform
 
-1. The Procedure is described  [here](./gcp/README.md)
+1. The procedure is described  [here](./gcp/README.md)
 
 ### Amazon Web Services
 
-1. EKS edition is coming soon
+1. The procedure is described [here](./aws/README.md)
 
 ### Azure
 
