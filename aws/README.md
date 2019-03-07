@@ -11,7 +11,7 @@ The following are known limitations
 
 ## Let's Get Started
 
-These steps already assume that you can use the AWS CLI from your workstation and can run commands aginst your AWS account with the AWS CLI.
+*These steps already assume that you can use the AWS CLI from your workstation and can run commands aginst your AWS account with the AWS CLI.*
 
 ### Additional Installation
 
@@ -25,7 +25,7 @@ make sure you make it executable
 
 `sudo mv aws-iam-authenticator /somewhere/in/your/path.`
 
-
+To make sure that 
 
 
 ### Advanced Set-up
@@ -50,13 +50,12 @@ On the output tab you should see and entry for
 
 Terraform will use these values to manipulate your aws account
 
-
-#### Validate you setup
-
+#### Validate your setup
 
 
 
-## Finally You are ready to begin
+
+## Finally, You are ready to begin
 
 
 
@@ -67,26 +66,59 @@ Assuming that you have
 
 ### Kubectl
 
-This solution did download a version of kubectl to your machine. It is located in the terraform folder. In your shell in the terraform folder
+This solution  downloaded a version of kubectl to your machine. It is located in the `aws/terraform` folder. In your shell in the terraform folder
 
 `./kubectl --kubeconfig=generated-kube.conf get pods --namespace spinnaker`
 
-This command will list all the pods that spinnaker deployed. The ready colum in the output should have 1/N for all services. 
+This command will list all the pods that spinnaker deployed. The ready column in the output should have 1/N for all services. 
 
-This 
+ 
+### Advanced Access
+
+If you set-up advanced access, you can skip the following two sections
+- Observavility
+- Spinnaker
+
+Use the DNS names referenced in the Advanced Access Set-up
 
 ### Observability
 
+#### Logs
+This solution installed EFK. In another terminal window navigate to the `aws/terraform` folder and run the following commands
+
+- `export POD_NAME=$(./kubectl --kubeconfig=generated-kube.conf get pods  -l "app=kibana,release=kibana" -o jsonpath="{.items[.metadata.name}")`
+  - That command looked up the Kibana Web App
+- `./kubectl --kubeconfig=generated-kube.conf port-forward  $POD_NAME 5601:5601`
+  - This created a port forward between your machine and the Kibana App
+
+You should then be able to navigate in your browser in "in-cognito mode" to:
+`http://localhost:5601/app/kibana`
+
+You will be prompted to create an index pattern for Kibana. If you don't see something like `kubernetes_cluster-yyyy.mm.dd` that means the index for the day was not created yet. Come back later.
+
+#### Metrics/Tracing
+TBD
 
 ### Access Spinnaker
+
+To access spinnaker you are going to ssh into the tools/tunnel instance and use halyard to facilitate port forwarding to your work station. In a new shell navigate to `aws/terraform`
+
+`ssh -i [PEM_NAME].pem ubuntu@[IP_or_DNS_of_Instance] -L 9000:localhost:9000 -L 8084:localhost:8084`
+
+Once you have ssh into the instance
+
+`hal deploy connect`
+
+When that command succedes open your browser in an incognito window and type
+
+`http://localhost:9000`
+
+You should see the initial spinnaker UI
 
 
 ### Adding Jenkins
 
-
-### Advanced Access
-
-
+TBD
 
 ## Destroy everything
 
