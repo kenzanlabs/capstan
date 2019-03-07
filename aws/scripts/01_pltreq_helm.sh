@@ -26,7 +26,7 @@ kubectl create namespace cdtools
 
 #side car injection for meshapps
 kubectl label namespace meshapps istio-injection=enabled
-kubectl label namespace default istio-injection=enabled
+#kubectl label namespace default istio-injection=enabled #add back once we move logging out of this namespace
 
 
 
