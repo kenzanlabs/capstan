@@ -26,33 +26,16 @@ USRNM_H=$(echo -n $USRNM | base64)
 PASSPHRASE_H=$(echo -n $PASSPHRASE | base64)
 
 
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kiali
-  namespace: $INAMESPACE
-  labels:
-    app: kiali
-type: Opaque
-data:
-  username: $USRNM_H
-  passphrase: $USRNM_H
-EOF
+sed -i "s/SEDINAMESPACE/$INAMESPACE/g" grafana_secret.yml
+sed -i "s/SEDUSRNM_H/$USRNM_H/g" grafana_secret.yml
+sed -i "s/SEDPASSWD_H/$PASSPHRASE_H/g" grafana_secret.yml
 
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: grafana
-  namespace: $INAMESPACE
-  labels:
-    app: grafana
-type: Opaque
-data:
-  username: $USRNM_H
-  passphrase: $USRNM_H
-EOF
+sed -i "s/SEDINAMESPACE/$INAMESPACE/g" kiali_secret.yml
+sed -i "s/SEDUSRNM_H/$USRNM_H/g" kiali_secret.yml
+sed -i "s/SEDPASSWD_H/$PASSPHRASE_H/g" kiali_secret.yml
+
+kubectl apply -f grafana_secret.yml
+kubectl apply -f kiali_secret.yml
 
 curl -L https://git.io/getLatestIstio | sh -
 
@@ -61,7 +44,7 @@ cd istio*
 
 
 
-helm install install/kubernetes/helm/istio --name istio --namespace $INAMESPACE --set grafana.enabled=true,tracing.enabled=true,kiali.enabled=true
+helm install install/kubernetes/helm/istio --name istio --namespace $INAMESPACE --set grafana.enabled=true,tracing.enabled=true,kiali.enabled=true,ingress.enabled=false,gateways.istio-ingressgateway.enabled=false,gateways.istio-egressgateway.enabled=false
 
 # return
 cd
