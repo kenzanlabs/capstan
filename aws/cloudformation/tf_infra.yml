@@ -1,0 +1,83 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >
+  This Template create a Terraform user, Terraform S3, Statebuckets, and dynamodb locking table for Terraform
+
+
+
+
+Parameters:
+
+terraformUser:
+  Description: "The user for Terraform"
+  Type: String
+  Default: "capstan-terraform-user"
+  MinLength: 2
+  MaxLength: 256
+
+terraformBucket:
+  Description: "The bucket used for Terraform State"
+  Type: String
+  Default: "capstan-terraform-bucket"
+  MinLength: 2
+  MaxLength: 256
+
+terraformDynamoDBtable:
+  Description: "The dynamodb table for locking"
+  Type: String
+  Default: "capstan-terraform-lock"
+  MinLength: 2
+  MaxLength: 256
+
+
+
+Resources:
+
+##### S3 Bucket
+  infaTerraformBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref terraformBucket
+
+##### DynamoDB 
+
+##### Terraform User and Roles
+
+  usrIamTFassumeRole:
+
+  usrIamUser:
+    Type: AWS::IAM::User
+    Properties: 
+    ManagedPolicyArns:
+    Policies:
+    UserName: !Ref terraformUser
+
+
+
+  usrKeyCredentials:
+    Type: AWS::IAM::AccessKey
+    Properties:
+    UserName:
+      !Ref usrIamUser
+
+
+
+
+Outputs:
+  BucketName:
+    Value: !Ref infaTerraformBucket
+    Description: Name of the sample Amazon S3 bucket used for terraform State
+  ViewBucket:
+    Value: !Sub https://s3.console.aws.amazon.com/s3/buckets/${infaTerraformBucket}/?region=${AWS::Region}&tab=overview
+    Description: The Terraform State Bucket
+  AccessKey:
+    Value: !Ref usrKeyCredentials
+    Description: The Access Key you need for Terraform
+  SecretKey:
+    Value: Fn::GetAtt: [usrKeyCredentials,SecretAccessKey]
+    Description: The Secret Key you need for Terraform
+  TerraformUser:
+    Value: !Ref usrIamUser
+    Description: The IAM user for Terraform (owner of keys)
