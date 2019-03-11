@@ -7,7 +7,24 @@ This Guide Deploy Spinnaker on EKS with some AWS specific IaaS integrations for 
 The following are known limitations
 
 - Testing occured in the first few regions that recieved EKS initially
+- This solution assumes `us-west-2`
 - Solution assumes 3 AZ(s)
+
+## What Capstan will Create
+
+Capstan on AWS will build the following solution shown in the illustration:
+
+
+This includes:
+- A New VPC (subnets, gatways, routing tables, etc)
+- Security Groups in said VPC
+- Iam Roles / Instance Profiles
+- Iam User for Terraform
+- EKS Cluster
+- A bastion that contains tools and be used as a ssh tunnel endpoint 
+  - The security group created allows access only from your Workstation's IP address.
+  - This tools instance performs addition EKS cluster configuration like install helm packagaes and automatically deploying spinnaker via [halyard]()
+
 
 ## Let's Get Started
 
@@ -39,19 +56,53 @@ To configure terraform, we will:
 
 #### Deploy Cloudformation
 
-While logged in as a user that can manipulate AWS IAM with CloudFormation, you will apply the cloudformation template located [here](./cloudformation/iam.yml). 
+While logged in as a user that can manipulate AWS IAM with CloudFormation, you will apply the cloudformation template located [here](./cloudformation/tf_infra.yml). 
 
 The cloudformation template will create an IAM user for Terraform and an IAM role for terraform. 
 
 On the output tab you should see and entry for
 - AccessKey
 - SecretAccessKey
-- TerraformRole
+- TerraformRole (capstan-terraform-role-assumed)
 
-Terraform will use these values to manipulate your aws account
+Terraform will use these values to manipulate your aws account.
+
+#### Get new key pair
+
+Since we will be using/accessing EC2 we need to create a new key pair. We will use this keypair to use the tools/tunnel instance we created. To learn how to create an EC2 key pair see [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html). You will create the key pair in the `us-west-2`. The name of the key pair should be `capstan`. If you have another key or want to use another name you will have to change it in the `variables.tf` file. When the pem file downloads place in the same folder as terraform files. 
+
+```
+variable "ec2_key" {
+  default = "capstan"
+  type    = "string"
+}
+
+variable "ec2_key_file" {
+  default = "capstan.pem"
+  type    = "string"
+}
+```
 
 #### Validate your setup
 
+Now it is time to make sure that your AWS account is ready to go. you will take values from the previous deployed cloud formation and use them as values for the terraform. In your bash compliant shell you will create some environment variables for the terraform as shown:
+
+
+```
+export TF_VAR_aws_access_key="<insert  access key value>"
+export TF_VAR_aws_secret_key="<insert  secret key value>"
+export TF_VAR_aws_account_id="<insert account number>"
+export TF_VAR_aws_role_name="capstan-terraform-role-assumed"
+```
+
+In the same shell type the following command:
+
+`terraform init`
+This command will parse the terraform and identifiy any modules that need to downloaded. There are some courtesy error checks performed BUT nothing context specific. If there are no errors execute the next command.
+
+`terraform plan`
+
+This create a listing of all the AWS resources that will be created by the terraform project. This should not generate errors.
 
 
 
@@ -114,6 +165,8 @@ When that command succedes open your browser in an incognito window and type
 `http://localhost:9000`
 
 You should see the initial spinnaker UI
+
+You are in!
 
 
 ### Adding Jenkins
