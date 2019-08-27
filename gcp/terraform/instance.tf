@@ -1,7 +1,7 @@
 resource "google_compute_instance" "halyardtunnel" {
   name         = "${var.halyard_machine_name}"
   machine_type = "${var.halyard_machine_type}"
-  zone         = "${var.region}-${var.zone}"
+  zone         = "${var.regionzone}"
 
   depends_on = [
     "google_project_iam_member.tools_owneradmin_iammember",
@@ -62,9 +62,9 @@ resource "google_compute_instance" "halyardtunnel" {
     inline = [
       "chmod +x /home/${var.ssh_user}/*.sh",
       "/home/${var.ssh_user}/instance_execute.sh",
-      "/home/${var.ssh_user}/create_GKE.sh ${var.gcp_project_id} ${var.gke_cluster_name} ${var.gke_primary_zone}",
+      "/home/${var.ssh_user}/create_GKE.sh ${var.gcp_project_id} ${var.gke_cluster_name} ${var.regionzone}",
    #   "/home/${var.ssh_user}/helm_packages.sh",
-      "/home/${var.ssh_user}/halyard_createSpinnaker.sh ${var.gcp_project_id} ${var.gke_cluster_name} ${var.gke_primary_zone} ${google_service_account.spinnaker.email} ${google_storage_bucket.spinnaker.name}",
+      "/home/${var.ssh_user}/halyard_createSpinnaker.sh ${var.gcp_project_id} ${var.gke_cluster_name} ${var.regionzone} ${google_service_account.spinnaker.email} ${google_storage_bucket.spinnaker.name}",
       "/home/${var.ssh_user}/enable_gpubsubartifact.sh ${var.gcp_project_id} ${google_pubsub_subscription.spinnaker_subscription.name}  ${google_pubsub_topic.gcr_event_stream.name}",
 
       #"/home/${var.ssh_user}/enableOauth2.sh ${var.gcp_project_id} ${var.ux_fqdn} ${var.api_fqdn} ${var.oauth2_clientid} ${var.oauth2_secret} ${var.gsuite}",
