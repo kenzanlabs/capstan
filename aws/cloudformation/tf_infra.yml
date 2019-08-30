@@ -8,27 +8,26 @@ Description: >
 
 
 Parameters:
+  terraformUser:
+    Description: "The user for Terraform"
+    Type: String
+    Default: "capstan-terraform-user"
+    MinLength: 2
+    MaxLength: 256
 
-terraformUser:
-  Description: "The user for Terraform"
-  Type: String
-  Default: "capstan-terraform-user"
-  MinLength: 2
-  MaxLength: 256
+  terraformBucket:
+    Description: "The bucket used for Terraform State"
+    Type: String
+    Default: "capstan-terraform-bucket"
+    MinLength: 2
+    MaxLength: 256
 
-terraformBucket:
-  Description: "The bucket used for Terraform State"
-  Type: String
-  Default: "capstan-terraform-bucket"
-  MinLength: 2
-  MaxLength: 256
-
-terraformDynamoDBtable:
-  Description: "The dynamodb table for locking"
-  Type: String
-  Default: "capstan-terraform-lock"
-  MinLength: 2
-  MaxLength: 256
+  terraformDynamoDBtable:
+    Description: "The dynamodb table for locking"
+    Type: String
+    Default: "capstan-terraform-lock"
+    MinLength: 2
+    MaxLength: 256
 
 
 
@@ -45,22 +44,19 @@ Resources:
 
 ##### Terraform User and Roles
 
-  usrIamTFassumeRole:
 
   usrIamUser:
     Type: AWS::IAM::User
     Properties: 
-    ManagedPolicyArns:
-    Policies:
-    UserName: !Ref terraformUser
+      UserName: !Ref terraformUser
 
 
 
   usrKeyCredentials:
     Type: AWS::IAM::AccessKey
     Properties:
-    UserName:
-      !Ref usrIamUser
+      UserName:
+        !Ref usrIamUser
 
 
 
@@ -76,7 +72,7 @@ Outputs:
     Value: !Ref usrKeyCredentials
     Description: The Access Key you need for Terraform
   SecretKey:
-    Value: Fn::GetAtt: [usrKeyCredentials,SecretAccessKey]
+    Value: !GetAtt [usrKeyCredentials,SecretAccessKey]
     Description: The Secret Key you need for Terraform
   TerraformUser:
     Value: !Ref usrIamUser
