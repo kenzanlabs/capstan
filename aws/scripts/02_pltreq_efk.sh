@@ -44,7 +44,7 @@ helm install --name fluent-bit  stable/fluent-bit --set backend.type=es,backend.
 ##### kibana
 #remember if you move elastic search you will need to move these references in the env
 #helm install --name kibana --namespace $LGNAMESPACE stable/kibana --set env.ELASTICSEARCH_URL=http://elasticsearch-client.$LGNAMESPACE.svc.cluster.local:9200
-helm install --name kibana stable/kibana --set env.ELASTICSEARCH_URL=http://elasticsearch-client:9200
+helm install --name kibana stable/kibana --set env.ELASTICSEARCH_HOSTS=http://elasticsearch-client:9200
 
 echo "=========================================="
 echo " - END EFK -"

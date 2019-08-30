@@ -85,14 +85,14 @@ variable "ec2_key_file" {
 
 #### Validate your setup
 
-Now it is time to make sure that your AWS account is ready to go. you will take values from the previous deployed cloud formation and use them as values for the terraform. In your bash compliant shell you will create some environment variables for the terraform as shown:
+Now it is time to make sure that your AWS account is ready to go. you will take values from the previous deployed cloud formation and use them as values for terraform and aws-iam-authenticator. In your bash compliant shell you will create some environment variables for the terraform as shown:
 
 
 ```
-export TF_VAR_aws_access_key="<insert  access key value>"
-export TF_VAR_aws_secret_key="<insert  secret key value>"
+export AWS_ACCESS_KEY_ID="anaccesskey"
+export AWS_SECRET_ACCESS_KEY="asecretkey"
+export AWS_DEFAULT_REGION="avalidregion"
 export TF_VAR_aws_account_id="<insert account number>"
-export TF_VAR_aws_role_name="capstan-terraform-role-assumed"
 ```
 
 In the same shell type the following command:
@@ -108,9 +108,12 @@ This create a listing of all the AWS resources that will be created by the terra
 
 ## Finally, You are ready to begin
 
+## Create the environment
+`terraform apply`
 
-
-
+This will ask for confirmation, only a yes answer will proceed.
+After entering yes, terraform will create the resources in AWS.
+This will take about 20 minutes.
 
 ## Accessing the Environment
 Assuming that you have 
@@ -137,7 +140,7 @@ Use the DNS names referenced in the Advanced Access Set-up
 #### Logs
 This solution installed EFK. In another terminal window navigate to the `aws/terraform` folder and run the following commands
 
-- `export POD_NAME=$(./kubectl --kubeconfig=generated-kube.conf get pods  -l "app=kibana,release=kibana" -o jsonpath="{.items[.metadata.name}")`
+- `export POD_NAME=$(./kubectl --kubeconfig=generated-kube.conf get pods  -l "app=kibana,release=kibana" -o jsonpath='{.items[0].metadata.name}')`
   - That command looked up the Kibana Web App
 - `./kubectl --kubeconfig=generated-kube.conf port-forward  $POD_NAME 5601:5601`
   - This created a port forward between your machine and the Kibana App
@@ -175,7 +178,7 @@ TBD
 
 ## Destroy everything
 
-If you run `terraform destory` after use of this environment you may find that some items can't be destroyed. These will ussually be
+If you run `terraform destroy` after use of this environment you may find that some items can't be destroyed. These will ussually be
 - S3 buckets created
 - Network
 

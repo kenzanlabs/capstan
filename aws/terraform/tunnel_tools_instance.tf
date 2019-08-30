@@ -16,7 +16,7 @@ resource "local_file" "kubeconf" {
 
 resource "null_resource" "kubeconfigmap" {
   provisioner "local-exec" {
-    command = "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/darwin/amd64/kubectl"   
+    command = "curl -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.12.7/2019-03-27/bin/darwin/amd64/kubectl"   
   }
 
     provisioner "local-exec" {
