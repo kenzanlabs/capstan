@@ -28,11 +28,11 @@ resource "aws_iam_instance_profile" "instprofile" {
 }
 
 data "aws_ami" "eks-worker" {
+  name_regex  = "amazon-eks-node-v\\d+$"
   filter {
-    name   = "name"
-    values = ["amazon-eks-node-v*"]
+    name      = "root-device-type"
+    values    = ["ebs"]
   }
-
   most_recent = true
   owners      = ["602401143452"] # Amazon
 }
