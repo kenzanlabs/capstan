@@ -108,9 +108,12 @@ This create a listing of all the AWS resources that will be created by the terra
 
 ## Finally, You are ready to begin
 
+## Create the environment
+`terraform apply`
 
-
-
+This will ask for confirmation, only a yes answer will proceed.
+After entering yes, terraform will create the resources in AWS.
+This will take about 20 minutes.
 
 ## Accessing the Environment
 Assuming that you have 
