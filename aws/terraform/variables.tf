@@ -67,8 +67,13 @@ variable "net_numsaz" {
   default = 3
 }
 
-variable "net_subnetcidrblock" {
-  default = ["10.1.0.0/18", "10.1.64.0/18", "10.1.128.0/18","10.1.192.0/18"]
+variable "privatenet_subnetcidrblock" {
+  default = ["10.1.128.0/19", "10.1.160.0/19", "10.1.192.0/19","10.1.224.0/19"]
+  type    = "list"
+}
+
+variable "publicnet_subnetcidrblock" {
+  default = ["10.1.0.0/19", "10.1.32.0/19", "10.1.64.0/19","10.1.96.0/19"]
   type    = "list"
 }
 

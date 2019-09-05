@@ -10,7 +10,7 @@ resource "aws_eks_cluster" "eks" {
 
   vpc_config {
     security_group_ids = ["${aws_security_group.cluster.id}"]
-    subnet_ids         = ["${aws_subnet.sbnet.*.id}"]
+    subnet_ids         = ["${aws_subnet.public_sbnet.*.id}","${aws_subnet.private_sbnet.*.id}"]
   }
 
   depends_on = [
@@ -47,7 +47,7 @@ USERDATA
 }
 
 resource "aws_launch_configuration" "alc" {
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   iam_instance_profile        = "${aws_iam_instance_profile.instprofile.name}"
   image_id                    = "${data.aws_ami.eks-worker.id}"
   #image_id = "ami-0a54c984b9f908c81"
@@ -68,7 +68,7 @@ resource "aws_autoscaling_group" "worker-asg" {
   max_size             = 10
   min_size             = 1
   name                 = "${var.gen_solution_name}"
-  vpc_zone_identifier  = ["${aws_subnet.sbnet.*.id}"]
+  vpc_zone_identifier  = ["${aws_subnet.private_sbnet.*.id}"]
 
   tag {
     key                 = "Name"

@@ -42,7 +42,7 @@ resource "aws_instance" "bastion" {
   key_name = "${var.ec2_key}"
   vpc_security_group_ids =["${aws_security_group.bastion.id}"]
   associate_public_ip_address = true
-  subnet_id = "${aws_subnet.sbnet.*.id[0]}"
+  subnet_id = "${aws_subnet.public_sbnet.*.id[0]}"
   iam_instance_profile ="${aws_iam_instance_profile.bastion-instance-profile.name}"
 
     depends_on = [
