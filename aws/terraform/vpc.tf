@@ -47,6 +47,8 @@ resource "aws_subnet" "public_sbnet" {
     map(
      "Name", "${var.gen_solution_name}-publicsb-${count.index}",
      "kubernetes.io/cluster/${var.gen_solution_name}", "shared",
+     "kubernetes.io/role/elb", "1",
+     "kubernetes.io/role/alb-ingress", "1",
     )
   }"
 }
@@ -104,6 +106,8 @@ resource "aws_subnet" "private_sbnet" {
     map(
      "Name", "${var.gen_solution_name}-privatesb-${count.index}",
      "kubernetes.io/cluster/${var.gen_solution_name}", "shared",
+     "kubernetes.io/role/internal-elb", "1",
+     "kubernetes.io/role/alb-ingress", "1",
     )
   }"
 }

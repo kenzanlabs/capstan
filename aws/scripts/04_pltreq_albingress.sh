@@ -7,7 +7,7 @@
 
 CLUSTERNAME=$1
 KUBE2IAMROLEARN=$2
-ALB_VERISON=v1.1.0
+ALB_VERISON=v1.0.0
 
 echo "******************************************"
 echo "=========================================="
@@ -23,7 +23,8 @@ wget https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controlle
 ## edit the YAML
 cp albingress_$ALB_VERISON.yml albingress.yml
 sed -i "s/SEDCLUSTERNAMEHERE/$CLUSTERNAME/g" albingress.yml
-sed -i "s/SEDIAMROLEARN/$KUBE2IAMROLEARN/g" albingress.yml
+#Arns have a slash in them, need to use different delimiters here
+sed -i "s[SEDIAMROLEARN[$KUBE2IAMROLEARN[g" albingress.yml
 ## apply the yaml
 kubectl apply -f rbac-role.yaml
 kubectl apply -f albingress.yml
